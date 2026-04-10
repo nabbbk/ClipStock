@@ -61,9 +61,16 @@ class ClipboardMonitor {
     }
 
     private func saveClip(type: String, text: String?, imageData: Data?, context: NSManagedObjectContext) {
-        // Skip duplicates: don't save if the most recent clip has the same content
-        if let text, let lastClip = fetchLastClip(context: context), lastClip.clipText == text {
-            return
+        // Move to top: if duplicate text exists, update its date instead of creating new
+        if let text {
+            let request = NSFetchRequest<ClipboardItem>(entityName: "ClipboardItem")
+            request.predicate = NSPredicate(format: "clipText == %@", text)
+            if let existing = try? context.fetch(request).first {
+                existing.clipDate = Date()
+                existing.clipSourceApp = NSWorkspace.shared.frontmostApplication?.localizedName
+                try? context.save()
+                return
+            }
         }
 
         let clip = ClipboardItem(context: context)
@@ -82,13 +89,6 @@ class ClipboardMonitor {
 
         // Enforce 500 item limit
         purgeOldClips(context: context)
-    }
-
-    private func fetchLastClip(context: NSManagedObjectContext) -> ClipboardItem? {
-        let request = NSFetchRequest<ClipboardItem>(entityName: "ClipboardItem")
-        request.sortDescriptors = [NSSortDescriptor(key: "clipDate", ascending: false)]
-        request.fetchLimit = 1
-        return try? context.fetch(request).first
     }
 
     private func purgeOldClips(context: NSManagedObjectContext) {
