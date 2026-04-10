@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="StockItem" representedClassName="StockItem" syncable="YES" codeGenerationType="class">
+        <attribute name="addedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fileDataContent" optional="YES" attributeType="Binary"/>
+        <attribute name="itemIconData" optional="YES" attributeType="Binary"/>
+        <attribute name="itemID" optional="YES" attributeType="String"/>
+        <attribute name="itemName" optional="YES" attributeType="String"/>
+        <attribute name="itemTag" optional="YES" attributeType="String"/>
+        <attribute name="itemUnread" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="itemURL" optional="YES" attributeType="URI"/>
+    </entity>
+    <entity name="ClipboardItem" representedClassName="ClipboardItem" syncable="YES" codeGenerationType="class">
+        <attribute name="clipDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="clipID" optional="YES" attributeType="String"/>
+        <attribute name="clipImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="clipSourceApp" optional="YES" attributeType="String"/>
+        <attribute name="clipText" optional="YES" attributeType="String"/>
+        <attribute name="clipType" optional="YES" attributeType="String"/>
+    </entity>
+</model>

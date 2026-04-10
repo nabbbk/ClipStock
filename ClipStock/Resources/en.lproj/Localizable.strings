@@ -1,0 +1,41 @@
+/* English Localizations */
+
+"All" = "All";
+"Un-Tagged" = "Un-Tagged";
+"Stock an item" = "Stock an item";
+"Drag the URL link directly to the app icon on the system bar; or, you can also manually type a URL here." = "Drag the URL link directly to the app icon on the system bar; or, you can also manually type a URL here.";
+"An URL, a piece of text, a short memo..." = "A URL, a piece of text, a short memo...";
+"Add" = "Add";
+"Cancel" = "Cancel";
+"There are no stocked items." = "There are no stocked items.";
+"Drag a URL link or a file directly to the app icon at the top system bar to save it." = "Drag a URL link or a file directly to the app icon at the top system bar to save it.";
+"Launch at login" = "Launch at login";
+"Support" = "Support";
+"Quit app" = "Quit app";
+"Share with iCloud" = "Share with iCloud";
+"The iCloud sharing link has been copied to your pasteboard." = "The iCloud sharing link has been copied to your pasteboard.";
+"Copy iCloud link" = "Copy iCloud link";
+"Share URL" = "Share URL";
+"Mark as read" = "Mark as read";
+"Mark as unread" = "Mark as unread";
+"Edit item details" = "Edit item details";
+"Edit" = "Edit";
+"Add a due date for this item." = "Add a due date for this item.";
+"Set deadline" = "Set deadline";
+"Add deadline" = "Add deadline";
+"Delete" = "Delete";
+"Copy to clipboard" = "Copy to clipboard";
+"Only file references are saved. If you delete or move the file, this app will not be able to open the file." = "Only file references are saved. If you delete or move the file, this app will not be able to open the file.";
+"Search..." = "Search...";
+
+/* Clipboard tab */
+"Stock" = "Stock";
+"Clipboard" = "Clipboard";
+"Search clippings..." = "Search clippings...";
+"No clippings yet" = "No clippings yet";
+"Copy something to get started." = "Copy something to get started.";
+"clippings" = "clippings";
+"Clear All" = "Clear All";
+"Copy" = "Copy";
+"Save to Stock" = "Save to Stock";
+"Copied!" = "Copied!";

@@ -1,0 +1,457 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A100000001000001 /* ClipStockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000001 /* ClipStockApp.swift */; };
+		A100000001000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000002 /* AppDelegate.swift */; };
+		A100000001000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000003 /* ContentView.swift */; };
+		A100000001000004 /* ItemViewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000004 /* ItemViewCard.swift */; };
+		A100000001000005 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000005 /* TagView.swift */; };
+		A100000001000006 /* SearchFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000006 /* SearchFieldView.swift */; };
+		A100000001000007 /* StorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000007 /* StorageHelper.swift */; };
+		A100000001000008 /* MetaDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000008 /* MetaDataHelper.swift */; };
+		A100000001000009 /* NSImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000009 /* NSImage+Extensions.swift */; };
+		A100000001000010 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000010 /* String+Extensions.swift */; };
+		A100000001000011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100000002000011 /* Assets.xcassets */; };
+		A100000001000012 /* ClipStock.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000012 /* ClipStock.xcdatamodeld */; };
+		A100000001000013 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A100000002000020 /* Localizable.strings */; };
+		A100000001000014 /* ClipboardMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000030 /* ClipboardMonitor.swift */; };
+		A100000001000015 /* ClipboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000031 /* ClipboardView.swift */; };
+		A100000001000016 /* ClipboardItemCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000032 /* ClipboardItemCard.swift */; };
+		A100000001000017 /* ToastOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000033 /* ToastOverlay.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A100000002000001 /* ClipStockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipStockApp.swift; sourceTree = "<group>"; };
+		A100000002000002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A100000002000003 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A100000002000004 /* ItemViewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewCard.swift; sourceTree = "<group>"; };
+		A100000002000005 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		A100000002000006 /* SearchFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldView.swift; sourceTree = "<group>"; };
+		A100000002000007 /* StorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageHelper.swift; sourceTree = "<group>"; };
+		A100000002000008 /* MetaDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataHelper.swift; sourceTree = "<group>"; };
+		A100000002000009 /* NSImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Extensions.swift"; sourceTree = "<group>"; };
+		A100000002000010 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		A100000002000011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A100000002000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A100000002000014 /* ClipStock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipStock.entitlements; sourceTree = "<group>"; };
+		A100000002000015 /* ClipStock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipStock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A100000002000016 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A100000002000017 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A100000002000018 /* ClipStock.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipStock.xcdatamodel; sourceTree = "<group>"; };
+		A100000002000030 /* ClipboardMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardMonitor.swift; sourceTree = "<group>"; };
+		A100000002000031 /* ClipboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardView.swift; sourceTree = "<group>"; };
+		A100000002000032 /* ClipboardItemCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItemCard.swift; sourceTree = "<group>"; };
+		A100000002000033 /* ToastOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastOverlay.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A100000004000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A100000003000001 = {
+			isa = PBXGroup;
+			children = (
+				A100000003000002 /* ClipStock */,
+				A100000003000008 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A100000003000002 /* ClipStock */ = {
+			isa = PBXGroup;
+			children = (
+				A100000003000003 /* App */,
+				A100000003000004 /* Views */,
+				A100000003000005 /* Data */,
+				A100000003000006 /* Extensions */,
+				A100000003000007 /* Resources */,
+				A100000002000013 /* Info.plist */,
+				A100000002000014 /* ClipStock.entitlements */,
+			);
+			path = ClipStock;
+			sourceTree = "<group>";
+		};
+		A100000003000003 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A100000002000001 /* ClipStockApp.swift */,
+				A100000002000002 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A100000003000004 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A100000002000003 /* ContentView.swift */,
+				A100000002000004 /* ItemViewCard.swift */,
+				A100000002000005 /* TagView.swift */,
+				A100000002000006 /* SearchFieldView.swift */,
+				A100000002000031 /* ClipboardView.swift */,
+				A100000002000032 /* ClipboardItemCard.swift */,
+				A100000002000033 /* ToastOverlay.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A100000003000005 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				A100000002000007 /* StorageHelper.swift */,
+				A100000002000008 /* MetaDataHelper.swift */,
+				A100000002000030 /* ClipboardMonitor.swift */,
+				A100000002000012 /* ClipStock.xcdatamodeld */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		A100000003000006 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A100000002000009 /* NSImage+Extensions.swift */,
+				A100000002000010 /* String+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A100000003000007 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A100000002000011 /* Assets.xcassets */,
+				A100000002000020 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A100000003000008 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A100000002000015 /* ClipStock.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A100000005000001 /* ClipStock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000007000002 /* Build configuration list for PBXNativeTarget "ClipStock" */;
+			buildPhases = (
+				A100000004000002 /* Sources */,
+				A100000004000001 /* Frameworks */,
+				A100000004000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClipStock;
+			productName = ClipStock;
+			productReference = A100000002000015 /* ClipStock.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A100000006000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					A100000005000001 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = A100000007000001 /* Build configuration list for PBXProject "ClipStock" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				ko,
+				Base,
+			);
+			mainGroup = A100000003000001;
+			productRefGroup = A100000003000008 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A100000005000001 /* ClipStock */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A100000004000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000001000011 /* Assets.xcassets in Resources */,
+				A100000001000013 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A100000004000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000001000001 /* ClipStockApp.swift in Sources */,
+				A100000001000002 /* AppDelegate.swift in Sources */,
+				A100000001000003 /* ContentView.swift in Sources */,
+				A100000001000004 /* ItemViewCard.swift in Sources */,
+				A100000001000005 /* TagView.swift in Sources */,
+				A100000001000006 /* SearchFieldView.swift in Sources */,
+				A100000001000007 /* StorageHelper.swift in Sources */,
+				A100000001000008 /* MetaDataHelper.swift in Sources */,
+				A100000001000009 /* NSImage+Extensions.swift in Sources */,
+				A100000001000010 /* String+Extensions.swift in Sources */,
+				A100000001000012 /* ClipStock.xcdatamodeld in Sources */,
+				A100000001000014 /* ClipboardMonitor.swift in Sources */,
+				A100000001000015 /* ClipboardView.swift in Sources */,
+				A100000001000016 /* ClipboardItemCard.swift in Sources */,
+				A100000001000017 /* ToastOverlay.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A100000002000020 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A100000002000016 /* en */,
+				A100000002000017 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A100000008000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A100000008000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A100000008000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClipStock/ClipStock.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KLT6V584MT;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClipStock/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipStock;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nabbbk.ClipStock;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A100000008000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClipStock/ClipStock.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KLT6V584MT;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClipStock/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipStock;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nabbbk.ClipStock;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A100000007000001 /* Build configuration list for PBXProject "ClipStock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000008000001 /* Debug */,
+				A100000008000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A100000007000002 /* Build configuration list for PBXNativeTarget "ClipStock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000008000003 /* Debug */,
+				A100000008000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A100000002000012 /* ClipStock.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A100000002000018 /* ClipStock.xcdatamodel */,
+			);
+			currentVersion = A100000002000018 /* ClipStock.xcdatamodel */;
+			path = ClipStock.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = A100000006000001 /* Project object */;
+}
