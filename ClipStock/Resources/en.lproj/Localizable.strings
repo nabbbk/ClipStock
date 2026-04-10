@@ -23,9 +23,15 @@
 "Add a due date for this item." = "Add a due date for this item.";
 "Set deadline" = "Set deadline";
 "Add deadline" = "Add deadline";
+"Remove" = "Remove";
+"Remove deadline" = "Remove deadline";
 "Delete" = "Delete";
 "Copy to clipboard" = "Copy to clipboard";
 "Only file references are saved. If you delete or move the file, this app will not be able to open the file." = "Only file references are saved. If you delete or move the file, this app will not be able to open the file.";
+"Enable Global Shortcuts" = "Enable Global Shortcuts";
+"ClipStock needs Accessibility permission for global shortcuts (Ctrl+Shift+V/C). Add ClipStock in System Settings → Privacy & Security → Accessibility." = "ClipStock needs Accessibility permission for global shortcuts (Ctrl+Shift+V/C). Add ClipStock in System Settings → Privacy & Security → Accessibility.";
+"Open Settings" = "Open Settings";
+"Later" = "Later";
 "Search..." = "Search...";
 
 /* Clipboard tab */

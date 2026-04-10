@@ -96,6 +96,13 @@ struct ItemViewCard: View {
                     actionEditDueDate()
                 }
 
+                if itemObject.dueDate != nil {
+                    Button(NSLocalizedString("Remove deadline", comment: "")) {
+                        itemObject.dueDate = nil
+                        try? StorageHelper.shared.storageContext.save()
+                    }
+                }
+
                 Button(NSLocalizedString("Delete", comment: ""), role: .destructive) {
                     actionDelete()
                 }
@@ -155,8 +162,9 @@ struct ItemViewCard: View {
         alert.informativeText = NSLocalizedString(
             "The iCloud sharing link has been copied to your pasteboard.", comment: "")
         alert.addButton(withTitle: "OK")
+        for button in alert.buttons { button.focusRingType = .none }
         if let window = popoverWindow() {
-            alert.beginSheetModal(for: window)
+            alert.beginSheetModal(for: window) { _ in window.makeKey() }
         }
     }
 
@@ -183,7 +191,7 @@ struct ItemViewCard: View {
         stack.spacing = 8
 
         let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 260, height: 100))
-        let titleField = NSTextView(frame: scrollView.contentView.bounds)
+        let titleField = DialogTextView(frame: scrollView.contentView.bounds)
         titleField.string = itemObject.itemName ?? ""
         titleField.isEditable = true
         titleField.isRichText = false
@@ -195,7 +203,7 @@ struct ItemViewCard: View {
         scrollView.hasVerticalScroller = true
         scrollView.borderType = .bezelBorder
 
-        let tagField = NSTextField(frame: NSRect(x: 0, y: 0, width: 260, height: 24))
+        let tagField = DialogTagField(frame: NSRect(x: 0, y: 0, width: 260, height: 24))
         tagField.stringValue = (itemObject.itemTag ?? "")
             .split(separator: ",")
             .map { $0.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "#", with: "") }
@@ -211,11 +219,30 @@ struct ItemViewCard: View {
             dialog.icon = NSImage(data: iconData)
         }
 
-        dialog.addButton(withTitle: "OK")
-        dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        let okButton = dialog.addButton(withTitle: "OK")
+        okButton.keyEquivalent = ""
+        let cancelButton = dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        cancelButton.keyEquivalent = "\u{1b}"
+        for button in dialog.buttons { button.focusRingType = .exterior }
+
+        titleField.alert = dialog
+        titleField.tabTarget = tagField
+        tagField.alert = dialog
+
+        let buttons = dialog.buttons
+        tagField.nextKeyView = buttons.first
+        if buttons.count > 1 {
+            for i in 0..<buttons.count - 1 {
+                buttons[i].nextKeyView = buttons[i + 1]
+            }
+        }
+        buttons.last?.nextKeyView = titleField
 
         guard let window = popoverWindow() else { return }
+        DispatchQueue.main.async { window.attachedSheet?.makeFirstResponder(titleField) }
         dialog.beginSheetModal(for: window) { response in
+            window.makeKey()
+
             guard response == .alertFirstButtonReturn,
                   !titleField.string.isEmpty else { return }
 
@@ -240,16 +267,27 @@ struct ItemViewCard: View {
     private func actionEditDueDate() {
         let dialog = NSAlert()
         dialog.messageText = NSLocalizedString("Add a due date for this item.", comment: "")
-        let picker = NSDatePicker(frame: NSRect(x: 0, y: 0, width: 240, height: 24))
+        let picker = DialogDatePicker(frame: NSRect(x: 0, y: 0, width: 240, height: 24))
         picker.dateValue = itemObject.dueDate ?? Date()
         picker.datePickerStyle = .textFieldAndStepper
         dialog.accessoryView = picker
-        dialog.addButton(withTitle: NSLocalizedString("Set deadline", comment: ""))
-        dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        let setButton = dialog.addButton(withTitle: NSLocalizedString("Set deadline", comment: ""))
+        setButton.keyEquivalent = "\r"
+        if itemObject.dueDate != nil {
+            dialog.addButton(withTitle: NSLocalizedString("Remove", comment: ""))
+        }
+        let cancelButton2 = dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        cancelButton2.keyEquivalent = "\u{1b}"
+        for button in dialog.buttons { button.focusRingType = .exterior }
         guard let window = popoverWindow() else { return }
+        DispatchQueue.main.async { window.attachedSheet?.makeFirstResponder(picker) }
         dialog.beginSheetModal(for: window) { response in
+            window.makeKey()
             if response == .alertFirstButtonReturn {
                 self.itemObject.dueDate = picker.dateValue
+                try? StorageHelper.shared.storageContext.save()
+            } else if response == .alertSecondButtonReturn && self.itemObject.dueDate != nil {
+                self.itemObject.dueDate = nil
                 try? StorageHelper.shared.storageContext.save()
             }
         }

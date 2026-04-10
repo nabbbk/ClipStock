@@ -8,6 +8,10 @@ struct ClipboardView: View {
     private var clips: FetchedResults<ClipboardItem>
 
     @State private var searchText = ""
+    @State private var selectedIDs: Set<String> = []
+    @State private var cursorID: String?
+    @State private var anchorID: String?
+    @FocusState private var isSearchFocused: Bool
 
     var body: some View {
         VStack(spacing: 0) {
@@ -18,6 +22,7 @@ struct ClipboardView: View {
                     .foregroundColor(.secondary)
                 TextField(NSLocalizedString("Search clippings...", comment: ""), text: $searchText)
                     .textFieldStyle(.plain)
+                    .focused($isSearchFocused)
                 if !searchText.isEmpty {
                     Button {
                         searchText = ""
@@ -48,15 +53,29 @@ struct ClipboardView: View {
                 Spacer()
             } else {
                 // Clips list
-                ScrollView {
-                    LazyVStack(spacing: 4) {
-                        ForEach(filteredClips) { clip in
-                            ClipboardItemCard(clip: clip)
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        LazyVStack(spacing: 4) {
+                            ForEach(filteredClips) { clip in
+                                ClipboardItemCard(clip: clip)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color.accentColor, lineWidth: 2)
+                                            .opacity(selectedIDs.contains(clip.clipID ?? "") ? 1 : 0)
+                                    )
+                                    .id(clip.clipID)
+                                    .onTapGesture {
+                                        handleClipClick(clip, in: filteredClips)
+                                    }
+                            }
                         }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
+                    .padding(.top, 8)
+                    .onChange(of: cursorID) { id in
+                        if let id { withAnimation { proxy.scrollTo(id, anchor: .center) } }
+                    }
                 }
-                .padding(.top, 8)
             }
 
             Divider().padding(.top, 6)
@@ -75,6 +94,12 @@ struct ClipboardView: View {
             .padding(.horizontal)
             .padding(.vertical, 6)
         }
+        .onAppear {
+            DispatchQueue.main.async { isSearchFocused = false }
+        }
+        .onReceive(AppState.shared.keyAction) { action in
+            handleKeyAction(action)
+        }
     }
 
     private var filteredClips: [ClipboardItem] {
@@ -83,5 +108,83 @@ struct ClipboardView: View {
             (clip.clipText ?? "").localizedCaseInsensitiveContains(searchText) ||
             (clip.clipSourceApp ?? "").localizedCaseInsensitiveContains(searchText)
         }
+    }
+
+    private func handleKeyAction(_ action: KeyAction) {
+        let clips = filteredClips
+        switch action {
+        case .navigateUp:
+            moveCursor(-1, in: clips, extend: false)
+        case .navigateDown:
+            moveCursor(1, in: clips, extend: false)
+        case .navigateUpExtend:
+            moveCursor(-1, in: clips, extend: true)
+        case .navigateDownExtend:
+            moveCursor(1, in: clips, extend: true)
+        case .copySelected:
+            if let id = cursorID, let clip = clips.first(where: { $0.clipID == id }) {
+                ClipboardMonitor.shared.ignoreSelfCopy()
+                let pasteboard = NSPasteboard.general
+                pasteboard.clearContents()
+                if clip.clipType == "image", let data = clip.clipImageData, let img = NSImage(data: data) {
+                    pasteboard.writeObjects([img])
+                } else if let text = clip.clipText {
+                    pasteboard.setString(text, forType: .string)
+                }
+                ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
+            }
+        case .deleteSelected:
+            let toDelete = clips.filter { selectedIDs.contains($0.clipID ?? "") }
+            guard !toDelete.isEmpty else { return }
+            for clip in toDelete { StorageHelper.shared.storageContext.delete(clip) }
+            try? StorageHelper.shared.storageContext.save()
+            selectedIDs.removeAll()
+            let remaining = filteredClips
+            if !remaining.isEmpty {
+                let id = remaining[0].clipID
+                cursorID = id
+                anchorID = id
+                if let id { selectedIDs.insert(id) }
+            } else {
+                cursorID = nil
+                anchorID = nil
+            }
+        case .focusSearch:
+            isSearchFocused = true
+        case .saveToStock:
+            let toPromote = clips.filter { selectedIDs.contains($0.clipID ?? "") }
+            for clip in toPromote { StorageHelper.shared.promoteClipToStock(clip) }
+            if !toPromote.isEmpty {
+                ToastState.shared.show(NSLocalizedString("Save to Stock", comment: ""))
+            }
+        case .addItem, .markAsRead, .editItem, .addDeadline, .removeDeadline:
+            break
+        }
+    }
+
+    private func moveCursor(_ direction: Int, in clips: [ClipboardItem], extend: Bool) {
+        guard !clips.isEmpty else { return }
+        let newIndex: Int
+        if let current = cursorID, let idx = clips.firstIndex(where: { $0.clipID == current }) {
+            newIndex = max(0, min(clips.count - 1, idx + direction))
+        } else {
+            newIndex = direction > 0 ? 0 : clips.count - 1
+        }
+        let newID = clips[newIndex].clipID
+        if extend {
+            if let id = newID { selectedIDs.insert(id) }
+        } else {
+            selectedIDs.removeAll()
+            if let id = newID { selectedIDs.insert(id) }
+            anchorID = newID
+        }
+        cursorID = newID
+    }
+
+    private func handleClipClick(_ clip: ClipboardItem, in clips: [ClipboardItem]) {
+        let id = clip.clipID ?? ""
+        selectedIDs = [id]
+        cursorID = clip.clipID
+        anchorID = clip.clipID
     }
 }

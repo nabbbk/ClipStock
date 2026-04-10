@@ -3,7 +3,9 @@ import SwiftUI
 struct SearchFieldView: View {
 
     @Binding var searchText: String
+    @Binding var triggerFocus: Bool
     @State private var isExpanded = false
+    @FocusState private var isFocused: Bool
 
     var body: some View {
         ZStack {
@@ -21,6 +23,7 @@ struct SearchFieldView: View {
                         text: $searchText
                     )
                     .textFieldStyle(.plain)
+                    .focused($isFocused)
 
                     if !searchText.isEmpty {
                         Button {
@@ -39,6 +42,15 @@ struct SearchFieldView: View {
         .onTapGesture {
             withAnimation(.easeInOut(duration: 0.2)) {
                 isExpanded.toggle()
+            }
+        }
+        .onChange(of: triggerFocus) { newValue in
+            if newValue {
+                isExpanded = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    isFocused = true
+                }
+                triggerFocus = false
             }
         }
     }

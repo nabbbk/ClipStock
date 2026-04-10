@@ -23,9 +23,15 @@
 "Add a due date for this item." = "이 항목에 마감일을 추가합니다.";
 "Set deadline" = "마감일 설정";
 "Add deadline" = "마감일 추가";
+"Remove" = "제거";
+"Remove deadline" = "마감일 제거";
 "Delete" = "삭제";
 "Copy to clipboard" = "클립보드에 복사";
 "Only file references are saved. If you delete or move the file, this app will not be able to open the file." = "파일 참조만 저장됩니다. 파일을 삭제하거나 이동하면 이 앱에서 파일을 열 수 없습니다.";
+"Enable Global Shortcuts" = "전역 단축키 활성화";
+"ClipStock needs Accessibility permission for global shortcuts (Ctrl+Shift+V/C). Add ClipStock in System Settings → Privacy & Security → Accessibility." = "전역 단축키(Ctrl+Shift+V/C)를 사용하려면 손쉬운 사용 권한이 필요합니다. 시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용에서 ClipStock을 추가하세요.";
+"Open Settings" = "설정 열기";
+"Later" = "나중에";
 "Search..." = "검색...";
 
 /* Clipboard tab */

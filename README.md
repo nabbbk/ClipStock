@@ -35,6 +35,53 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 |:-:|:-:|
 | ![Stock Tab](screenshots/stock_tab.png) | ![Clipboard Tab](screenshots/clipboard_tab.png) |
 
+## Keyboard Shortcuts
+
+### Global (works from any app)
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl+Shift+V` | Open Stock tab |
+| `Ctrl+Shift+C` | Open Clipboard tab |
+
+### Navigation (when popover is open)
+
+| Shortcut | Action |
+|---|---|
+| `↑` / `↓` | Navigate items |
+| `Shift+↑` / `Shift+↓` | Extend selection |
+| `Tab` | Switch between Stock/Clipboard |
+| `Enter` | Copy selected item |
+| `Esc` | Close popover |
+| `Cmd+F` | Focus search field |
+
+### Stock Tab
+
+| Shortcut | Action |
+|---|---|
+| `Cmd+N` | Add new item |
+| `Cmd+R` | Toggle read/unread |
+| `Cmd+E` | Edit item |
+| `Cmd+D` | Add/edit deadline |
+| `Cmd+Shift+D` | Remove deadline |
+| `Cmd+Backspace` | Delete selected |
+
+### Clipboard Tab
+
+| Shortcut | Action |
+|---|---|
+| `Cmd+S` | Save selected to Stock |
+| `Cmd+Backspace` | Delete selected |
+
+### Dialogs
+
+| Shortcut | Action |
+|---|---|
+| `Enter` | Confirm |
+| `Shift+Enter` | Line break (in text fields) |
+| `Tab` | Navigate between fields/buttons |
+| `Esc` | Cancel |
+
 ## Install
 
 1. Download `ClipStock.dmg` from the [latest release](https://github.com/nabbbk/ClipStock/releases/latest)

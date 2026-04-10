@@ -1,11 +1,14 @@
 import Cocoa
 import SwiftUI
+import Carbon.HIToolbox
+import KeyboardShortcuts
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 
     private var popover: NSPopover!
     private var statusBarItem: NSStatusItem!
     private var eventMonitor: Any?
+    private var localKeyMonitor: Any?
 
     /// Exposed for sharing service picker in ItemViewCard
     var popoverContentView: NSView? {
@@ -16,6 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     // MARK: - Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        NSView.disableFocusRings()
+
         let contentView = ContentView()
             .environment(\.managedObjectContext, persistence.storageContext)
 
@@ -40,6 +45,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         // Register for drag-and-drop on the status bar button's window
         button.window?.registerForDraggedTypes([.URL, .string])
         button.window?.delegate = self
+
+        // Global hotkeys via KeyboardShortcuts
+        registerGlobalHotKeys()
+
+        // Local hotkeys (when popover is open)
+        localKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard let self, self.popover.isShown else { return event }
+            return self.handleLocalKey(event) ? nil : event
+        }
     }
 
     func popoverWillClose(_ notification: Notification) {
@@ -48,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 
     // MARK: - Popover Toggle
 
-    @objc private func togglePopover(_ sender: AnyObject?) {
+    @objc func togglePopover(_ sender: AnyObject?) {
         guard let button = statusBarItem.button else { return }
         if popover.isShown {
             closePopover(sender)
@@ -69,6 +83,106 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             NSEvent.removeMonitor(monitor)
             eventMonitor = nil
         }
+    }
+
+    // MARK: - Global Hotkeys
+
+    private func registerGlobalHotKeys() {
+        KeyboardShortcuts.onKeyUp(for: .openStock) { [weak self] in
+            AppState.shared.selectedTab = .stock
+            if self?.popover.isShown == false { self?.togglePopover(nil) }
+        }
+        KeyboardShortcuts.onKeyUp(for: .openClipboard) { [weak self] in
+            AppState.shared.selectedTab = .clipboard
+            if self?.popover.isShown == false { self?.togglePopover(nil) }
+        }
+    }
+
+    // MARK: - Local Keyboard Shortcuts
+
+    private func handleLocalKey(_ event: NSEvent) -> Bool {
+        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        let state = AppState.shared
+        let textFieldActive = NSApp.keyWindow?.firstResponder is NSText
+
+        // Esc — if a dialog sheet is showing, let it handle Esc; otherwise close popover
+        if event.keyCode == 53 {
+            if let window = popover.contentViewController?.view.window, window.attachedSheet != nil {
+                return false
+            }
+            closePopover(nil)
+            return true
+        }
+
+        // Navigation keys — only when not typing in a text field and no dialog open
+        let sheetOpen = popover.contentViewController?.view.window?.attachedSheet != nil
+        if !textFieldActive && !sheetOpen {
+            let hasShift = flags.contains(.shift)
+            switch event.keyCode {
+            case 48: // Tab
+                if !hasShift {
+                    state.selectedTab = state.selectedTab == .stock ? .clipboard : .stock
+                    return true
+                }
+            case 36: // Enter
+                if !hasShift {
+                    state.keyAction.send(.copySelected)
+                    return true
+                }
+            case 126: // ↑
+                state.keyAction.send(hasShift ? .navigateUpExtend : .navigateUp)
+                return true
+            case 125: // ↓
+                state.keyAction.send(hasShift ? .navigateDownExtend : .navigateDown)
+                return true
+            default:
+                break
+            }
+        }
+
+        // Cmd shortcuts — use key codes (works with any input method), skip when dialog open
+        if flags == .command && !sheetOpen {
+            switch Int(event.keyCode) {
+            case kVK_ANSI_F:
+                state.keyAction.send(.focusSearch)
+                return true
+            case kVK_ANSI_N:
+                if state.selectedTab == .stock {
+                    state.keyAction.send(.addItem)
+                    return true
+                }
+            case kVK_ANSI_R:
+                state.keyAction.send(.markAsRead)
+                return true
+            case kVK_ANSI_E:
+                state.keyAction.send(.editItem)
+                return true
+            case kVK_ANSI_D:
+                state.keyAction.send(.addDeadline)
+                return true
+            case kVK_ANSI_S:
+                state.keyAction.send(.saveToStock)
+                return true
+            case kVK_Delete: // Cmd+Backspace
+                state.keyAction.send(.deleteSelected)
+                return true
+            default:
+                break
+            }
+        }
+
+        // Cmd+Shift shortcuts
+        if flags == [.command, .shift] && !sheetOpen {
+            switch Int(event.keyCode) {
+            case kVK_ANSI_D:
+                state.keyAction.send(.removeDeadline)
+                return true
+            default:
+                break
+            }
+        }
+
+        return false
     }
 }
 
@@ -111,4 +225,11 @@ extension AppDelegate: NSWindowDelegate, NSDraggingDestination {
         }
         return true
     }
+}
+
+// MARK: - KeyboardShortcuts Definitions
+
+extension KeyboardShortcuts.Name {
+    static let openStock = Self("openStock", default: .init(.v, modifiers: [.control, .shift]))
+    static let openClipboard = Self("openClipboard", default: .init(.c, modifiers: [.control, .shift]))
 }
