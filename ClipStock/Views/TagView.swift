@@ -4,14 +4,18 @@ struct TagView: View {
 
     let tagContent: String
     var textFont: Font = .caption
-    var textPadding: CGFloat = 4
+
+    private var tags: [String] {
+        tagContent.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+    }
 
     var body: some View {
-        Text(tagContent)
-            .font(textFont)
-            .foregroundColor(.white)
-            .padding(.horizontal, textPadding + 2)
-            .padding(.vertical, textPadding)
-            .background(RoundedRectangle(cornerRadius: 5).fill(.blue))
+        HStack(spacing: 4) {
+            ForEach(tags, id: \.self) { tag in
+                Text(tag)
+                    .font(textFont)
+                    .foregroundColor(.blue)
+            }
+        }
     }
 }

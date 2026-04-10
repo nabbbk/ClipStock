@@ -21,7 +21,7 @@ class StorageHelper {
         self.storageContext = context
     }
 
-    func saveToCoreData(itemURL: URL?, itemTitle: String, itemIconData: Data?) {
+    func saveToCoreData(itemURL: URL?, itemTitle: String, itemIconData: Data?, tag: String? = nil) {
         let newItem = StockItem(context: storageContext)
         newItem.itemID = UUID().uuidString
         newItem.addedDate = Date()
@@ -29,6 +29,7 @@ class StorageHelper {
         newItem.itemName = itemTitle
         newItem.itemIconData = itemIconData
         newItem.itemUnread = true
+        newItem.itemTag = tag
         do {
             try storageContext.save()
         } catch {
@@ -81,10 +82,12 @@ class StorageHelper {
     func clearAllClips() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ClipboardItem")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+        deleteRequest.resultType = .resultTypeObjectIDs
         do {
-            try storageContext.execute(deleteRequest)
-            try storageContext.save()
-            storageContext.reset()
+            let result = try storageContext.execute(deleteRequest) as? NSBatchDeleteResult
+            let objectIDs = result?.result as? [NSManagedObjectID] ?? []
+            let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: objectIDs]
+            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [storageContext])
         } catch {
             print("Clear clips error: \(error.localizedDescription)")
         }
@@ -96,7 +99,13 @@ class StorageHelper {
         do {
             let result = try storageContext.fetch(request)
             for item in result {
-                allTags.insert(item.itemTag ?? NSLocalizedString("Un-Tagged", comment: ""))
+                if let tagString = item.itemTag {
+                    for tag in tagString.split(separator: ",") {
+                        allTags.insert(tag.trimmingCharacters(in: .whitespaces))
+                    }
+                } else {
+                    allTags.insert(NSLocalizedString("Un-Tagged", comment: ""))
+                }
             }
             return allTags
         } catch {

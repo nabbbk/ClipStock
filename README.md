@@ -31,7 +31,9 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 
 ## Screenshots
 
-*(Coming soon)*
+| Stock Tab | Clipboard Tab |
+|:-:|:-:|
+| ![Stock Tab](screenshots/stock_tab.png) | ![Clipboard Tab](screenshots/clipboard_tab.png) |
 
 ## Requirements
 

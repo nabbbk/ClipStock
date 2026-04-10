@@ -19,7 +19,6 @@ struct ContentView: View {
                 }
             }
             .pickerStyle(.segmented)
-            .focusable(false)
             .padding(.horizontal)
             .padding(.top, 10)
 
@@ -52,6 +51,14 @@ struct ContentView: View {
                 .toggleStyle(.checkbox)
 
                 HStack {
+                    Button {
+                        NSWorkspace.shared.open(URL(string: "https://github.com/nabbbk/ClipStock")!)
+                    } label: {
+                        Label(NSLocalizedString("Support", comment: ""), systemImage: "questionmark.circle")
+                            .font(.caption)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundColor(.secondary)
                     Spacer()
                     Button(NSLocalizedString("Quit app", comment: "")) {
                         NSApplication.shared.terminate(nil)
@@ -153,8 +160,11 @@ struct StockView: View {
             if selectedTag != NSLocalizedString("All", comment: "") {
                 if item.itemTag == nil && selectedTag == NSLocalizedString("Un-Tagged", comment: "") {
                     // pass through
-                } else if item.itemTag != selectedTag {
-                    return false
+                } else {
+                    let itemTags = (item.itemTag ?? "").split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+                    if !itemTags.contains(selectedTag) {
+                        return false
+                    }
                 }
             }
             guard !searchText.isEmpty else { return true }
@@ -170,6 +180,11 @@ struct StockView: View {
         dialog.informativeText = NSLocalizedString(
             "Drag the URL link directly to the app icon on the system bar; or, you can also manually type a URL here.",
             comment: "")
+
+        let stack = NSStackView(frame: NSRect(x: 0, y: 0, width: 260, height: 112))
+        stack.orientation = .vertical
+        stack.spacing = 8
+
         let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 260, height: 80))
         let textView = NSTextView(frame: scrollView.contentView.bounds)
         textView.isEditable = true
@@ -181,7 +196,15 @@ struct StockView: View {
         scrollView.documentView = textView
         scrollView.hasVerticalScroller = true
         scrollView.borderType = .bezelBorder
-        dialog.accessoryView = scrollView
+
+        let tagField = NSTextField(frame: NSRect(x: 0, y: 0, width: 260, height: 24))
+        tagField.placeholderString = "Tag"
+        tagField.font = .systemFont(ofSize: 13)
+
+        stack.addArrangedSubview(scrollView)
+        stack.addArrangedSubview(tagField)
+        dialog.accessoryView = stack
+
         dialog.addButton(withTitle: NSLocalizedString("Add", comment: ""))
         dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
 
@@ -190,12 +213,24 @@ struct StockView: View {
             guard response == .alertFirstButtonReturn,
                   !textView.string.isEmpty else { return }
 
+            var tag: String? = nil
+            if !tagField.stringValue.isEmpty {
+                let formatted = tagField.stringValue
+                    .split(separator: ",")
+                    .map { t in
+                        let trimmed = t.trimmingCharacters(in: .whitespaces)
+                        return trimmed.hasPrefix("#") ? trimmed : "#\(trimmed)"
+                    }
+                    .joined(separator: ",")
+                tag = formatted
+            }
+
             var inputValue: Any = textView.string
             if let url = URL(string: textView.string), url.scheme != nil {
                 inputValue = url as NSURL
             }
             MetaDataHelper.fetchItemMetaData(droppedItem: inputValue) { iconData, title, url in
-                StorageHelper.shared.saveToCoreData(itemURL: url, itemTitle: title, itemIconData: iconData)
+                StorageHelper.shared.saveToCoreData(itemURL: url, itemTitle: title, itemIconData: iconData, tag: tag)
             }
         }
     }

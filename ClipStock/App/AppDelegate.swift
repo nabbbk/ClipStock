@@ -5,6 +5,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 
     private var popover: NSPopover!
     private var statusBarItem: NSStatusItem!
+    private var eventMonitor: Any?
 
     /// Exposed for sharing service picker in ItemViewCard
     var popoverContentView: NSView? {
@@ -50,13 +51,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     @objc private func togglePopover(_ sender: AnyObject?) {
         guard let button = statusBarItem.button else { return }
         if popover.isShown {
-            popover.performClose(sender)
+            closePopover(sender)
         } else {
             NSApplication.shared.activate(ignoringOtherApps: true)
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             popover.contentViewController?.view.window?.becomeKey()
+            eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
+                self?.closePopover(nil)
+            }
         }
         button.title = "\(persistence.getUnreadItemCounting())"
+    }
+
+    private func closePopover(_ sender: AnyObject?) {
+        popover.performClose(sender)
+        if let monitor = eventMonitor {
+            NSEvent.removeMonitor(monitor)
+            eventMonitor = nil
+        }
     }
 }
 

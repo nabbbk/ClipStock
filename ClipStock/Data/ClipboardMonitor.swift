@@ -44,7 +44,7 @@ class ClipboardMonitor {
 
         // Detect clipboard content type and save
         if let image = NSImage(pasteboard: pasteboard) {
-            // Image clipboard
+            // Image clipboard (raw image data on pasteboard)
             let imageData = image.jpegData()
             let preview = pasteboard.string(forType: .string) ?? "Image"
             saveClip(type: "image", text: preview, imageData: imageData, context: context)

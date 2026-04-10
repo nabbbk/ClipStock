@@ -196,7 +196,10 @@ struct ItemViewCard: View {
         scrollView.borderType = .bezelBorder
 
         let tagField = NSTextField(frame: NSRect(x: 0, y: 0, width: 260, height: 24))
-        tagField.stringValue = itemObject.itemTag ?? ""
+        tagField.stringValue = (itemObject.itemTag ?? "")
+            .split(separator: ",")
+            .map { $0.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "#", with: "") }
+            .joined(separator: ", ")
         tagField.placeholderString = "Tag"
         tagField.font = .systemFont(ofSize: 13)
 
@@ -218,12 +221,17 @@ struct ItemViewCard: View {
 
             self.itemObject.itemName = titleField.string
 
-            var tagValue = tagField.stringValue
-            if tagValue.isEmpty {
+            if tagField.stringValue.isEmpty {
                 self.itemObject.itemTag = nil
             } else {
-                if !tagValue.hasPrefix("#") { tagValue = "#\(tagValue)" }
-                self.itemObject.itemTag = tagValue
+                let formatted = tagField.stringValue
+                    .split(separator: ",")
+                    .map { t in
+                        let trimmed = t.trimmingCharacters(in: .whitespaces)
+                        return trimmed.hasPrefix("#") ? trimmed : "#\(trimmed)"
+                    }
+                    .joined(separator: ",")
+                self.itemObject.itemTag = formatted
             }
             try? StorageHelper.shared.storageContext.save()
         }
