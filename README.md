@@ -19,7 +19,7 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 - **Search** clipboard history
 - **Save to Stock** — promote important clips to permanent storage
 - **Drag-and-drop** clippings into any app
-- **Smart deduplication** — skips consecutive identical copies
+- **Smart deduplication** — copying the same text moves it to the top instead of creating duplicates
 - **500-item limit** — automatically purges oldest entries
 - **Self-aware** — doesn't capture copies made from within the app
 
