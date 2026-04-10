@@ -35,12 +35,20 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 |:-:|:-:|
 | ![Stock Tab](screenshots/stock_tab.png) | ![Clipboard Tab](screenshots/clipboard_tab.png) |
 
+## Install
+
+1. Download `ClipStock.dmg` from the [latest release](https://github.com/nabbbk/ClipStock/releases/latest)
+2. Open the DMG and drag ClipStock to Applications
+3. Launch ClipStock from Applications
+
+> **Note:** The app is not notarized. On first launch, right-click the app → **Open** → **Open** to bypass Gatekeeper.
+
 ## Requirements
 
 - macOS 13.0 (Ventura) or later
 - Xcode 15+ to build from source
 
-## Build
+## Build from Source
 
 1. Clone the repo
 2. Open `ClipStock.xcodeproj` in Xcode
