@@ -93,6 +93,11 @@ class StorageHelper {
         }
     }
 
+    func togglePin(_ clip: ClipboardItem) {
+        clip.isPinned = !clip.isPinned
+        try? storageContext.save()
+    }
+
     func getAllTags() -> Set<String> {
         let request = NSFetchRequest<StockItem>(entityName: "StockItem")
         var allTags: Set<String> = [NSLocalizedString("All", comment: "")]

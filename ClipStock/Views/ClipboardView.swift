@@ -3,7 +3,10 @@ import SwiftUI
 struct ClipboardView: View {
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \ClipboardItem.clipDate, ascending: false)],
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \ClipboardItem.isPinned, ascending: false),
+            NSSortDescriptor(keyPath: \ClipboardItem.clipDate, ascending: false)
+        ],
         animation: .default)
     private var clips: FetchedResults<ClipboardItem>
 
@@ -180,6 +183,22 @@ struct ClipboardView: View {
                 pasteboard.setString(text, forType: .string)
             }
             ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
+        case .copyPlainText:
+            if let id = cursorID, let clip = clips.first(where: { $0.clipID == id }),
+               let text = clip.clipText {
+                ClipboardMonitor.shared.ignoreSelfCopy()
+                let pasteboard = NSPasteboard.general
+                pasteboard.clearContents()
+                pasteboard.setString(text, forType: .string)
+                ToastState.shared.show(NSLocalizedString("Copied as plain text", comment: ""))
+            }
+        case .togglePin:
+            if let id = cursorID, let clip = clips.first(where: { $0.clipID == id }) {
+                StorageHelper.shared.togglePin(clip)
+                ToastState.shared.show(clip.isPinned
+                    ? NSLocalizedString("Pinned", comment: "")
+                    : NSLocalizedString("Unpinned", comment: ""))
+            }
         case .addItem, .markAsRead, .editItem, .addDeadline, .removeDeadline:
             break
         }

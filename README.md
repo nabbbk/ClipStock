@@ -20,13 +20,17 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 - **Save to Stock** — promote important clips to permanent storage
 - **Drag-and-drop** clippings into any app
 - **Smart deduplication** — copying the same text moves it to the top instead of creating duplicates
-- **500-item limit** — automatically purges oldest entries
+- **Pinned items** — keep important clips at the top; pinned items are exempt from the history limit
+- **Quick paste** — `⌘1`–`⌘9` copies the Nth visible clip (Maccy-style)
+- **Plain text paste** — `⌥⌘V` strips formatting from the selected clip
+- **Configurable history limit** — default 500, adjustable in Preferences
 - **Self-aware** — doesn't capture copies made from within the app
 
 ### General
+- **Preferences window** — rebind global shortcuts, configure behavior; open via right-click on the menu bar icon
+- **Paste on select** (optional) — automatically pastes the chosen clip into the frontmost app, mirroring Maccy (requires Accessibility permission)
 - **Launch at login** via macOS native `SMAppService`
 - **Localized** in English and Korean
-- **No external dependencies** — pure Apple frameworks
 - **Core Data** storage (CloudKit-ready for cross-device sync)
 
 ## Screenshots
@@ -43,6 +47,8 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 |---|---|
 | `Ctrl+Shift+V` | Open Stock tab |
 | `Ctrl+Shift+C` | Open Clipboard tab |
+
+Both shortcuts are remappable in **Preferences** (right-click the menu bar icon → **Preferences…**).
 
 ### Navigation (when popover is open)
 
@@ -71,6 +77,9 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 | Shortcut | Action |
 |---|---|
 | `Cmd+S` | Save selected to Stock |
+| `Cmd+P` | Pin / unpin selected clip |
+| `Cmd+1` … `Cmd+9` | Copy the Nth visible clip and close the popover |
+| `Option+Cmd+V` | Copy selected clip as plain text (strip formatting) |
 | `Cmd+Backspace` | Delete selected |
 
 ### Dialogs
@@ -133,6 +142,9 @@ This project is inspired by and based on [ItemStock](https://github.com/mszpro/I
 - Tabbed interface (Stock / Clipboard)
 - In-app toast notifications
 - Sheet-based dialogs
+- Preferences window with remappable global shortcuts (`KeyboardShortcuts`)
+- Pinned clips, `⌘1`–`⌘9` quick paste, `⌥⌘V` plain text paste
+- Optional paste-on-select using `CGEvent` (Accessibility permission required)
 
 ## License
 

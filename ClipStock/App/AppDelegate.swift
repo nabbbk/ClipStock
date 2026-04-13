@@ -28,6 +28,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         // Start clipboard monitoring
         ClipboardMonitor.shared.start()
 
+        // Reconcile launch-at-login state with stored preference
+        LaunchAtLoginHelper.applyStoredPreference()
+
         let popover = NSPopover()
         popover.contentSize = NSSize(width: 400, height: 560)
         popover.behavior = .transient
@@ -98,11 +101,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             window.title = NSLocalizedString("ClipStock Preferences", comment: "")
             window.styleMask = [.titled, .closable]
             window.isReleasedWhenClosed = false
+            window.delegate = self
             window.center()
             settingsWindow = window
         }
+        NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
         settingsWindow?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        if (notification.object as? NSWindow) === settingsWindow {
+            NSApp.setActivationPolicy(.accessory)
+        }
     }
 
     @objc func togglePopover(_ sender: AnyObject?) {
@@ -170,6 +181,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             case 36: // Enter
                 if !hasShift {
                     state.keyAction.send(.copySelected)
+                    if Preferences.pasteOnSelect {
+                        closePopover(nil)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                            PasteHelper.simulatePaste()
+                        }
+                    }
                     return true
                 }
             case 126: // ↑
@@ -206,6 +223,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             case kVK_ANSI_S:
                 state.keyAction.send(.saveToStock)
                 return true
+            case kVK_ANSI_P:
+                state.keyAction.send(.togglePin)
+                return true
             case kVK_Delete: // Cmd+Backspace
                 state.keyAction.send(.deleteSelected)
                 return true
@@ -214,6 +234,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
                 if let n = digitIndex(forKeyCode: Int(event.keyCode)) {
                     state.keyAction.send(.copyIndex(n))
                     closePopover(nil)
+                    if Preferences.pasteOnSelect {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                            PasteHelper.simulatePaste()
+                        }
+                    }
                     return true
                 }
             default:
@@ -226,6 +251,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             switch Int(event.keyCode) {
             case kVK_ANSI_D:
                 state.keyAction.send(.removeDeadline)
+                return true
+            default:
+                break
+            }
+        }
+
+        // Cmd+Option shortcuts
+        if flags == [.command, .option] && !sheetOpen {
+            switch Int(event.keyCode) {
+            case kVK_ANSI_V:
+                state.keyAction.send(.copyPlainText)
                 return true
             default:
                 break

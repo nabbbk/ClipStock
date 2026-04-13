@@ -92,12 +92,14 @@ class ClipboardMonitor {
     }
 
     private func purgeOldClips(context: NSManagedObjectContext) {
+        let limit = Preferences.maxHistoryCount
         let request = NSFetchRequest<ClipboardItem>(entityName: "ClipboardItem")
+        request.predicate = NSPredicate(format: "isPinned == NO OR isPinned == nil")
         request.sortDescriptors = [NSSortDescriptor(key: "clipDate", ascending: false)]
         do {
-            let allClips = try context.fetch(request)
-            if allClips.count > 500 {
-                for clip in allClips[500...] {
+            let unpinned = try context.fetch(request)
+            if unpinned.count > limit {
+                for clip in unpinned[limit...] {
                     context.delete(clip)
                 }
                 try context.save()
