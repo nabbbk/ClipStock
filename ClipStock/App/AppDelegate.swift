@@ -9,6 +9,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     private var statusBarItem: NSStatusItem!
     private var eventMonitor: Any?
     private var localKeyMonitor: Any?
+    private var settingsWindow: NSWindow?
 
     /// Exposed for sharing service picker in ItemViewCard
     var popoverContentView: NSView? {
@@ -39,8 +40,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         button.image = NSImage(systemSymbolName: "tray.full.fill", accessibilityDescription: "ClipStock")
         button.imagePosition = .imageLeft
         button.title = "\(persistence.getUnreadItemCounting())"
-        button.action = #selector(togglePopover(_:))
+        button.action = #selector(statusBarButtonClicked(_:))
         button.target = self
+        button.sendAction(on: [.leftMouseUp, .rightMouseUp])
 
         // Register for drag-and-drop on the status bar button's window
         button.window?.registerForDraggedTypes([.URL, .string])
@@ -61,6 +63,47 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     }
 
     // MARK: - Popover Toggle
+
+    @objc func statusBarButtonClicked(_ sender: AnyObject?) {
+        let event = NSApp.currentEvent
+        if event?.type == .rightMouseUp {
+            showStatusBarMenu()
+        } else {
+            togglePopover(sender)
+        }
+    }
+
+    private func showStatusBarMenu() {
+        let menu = NSMenu()
+        let prefsItem = NSMenuItem(
+            title: NSLocalizedString("Preferences...", comment: ""),
+            action: #selector(openPreferences),
+            keyEquivalent: ",")
+        prefsItem.target = self
+        menu.addItem(prefsItem)
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(
+            title: NSLocalizedString("Quit ClipStock", comment: ""),
+            action: #selector(NSApplication.terminate(_:)),
+            keyEquivalent: "q"))
+        statusBarItem.menu = menu
+        statusBarItem.button?.performClick(nil)
+        statusBarItem.menu = nil
+    }
+
+    @objc func openPreferences() {
+        if settingsWindow == nil {
+            let hosting = NSHostingController(rootView: SettingsView())
+            let window = NSWindow(contentViewController: hosting)
+            window.title = NSLocalizedString("ClipStock Preferences", comment: "")
+            window.styleMask = [.titled, .closable]
+            window.isReleasedWhenClosed = false
+            window.center()
+            settingsWindow = window
+        }
+        NSApp.activate(ignoringOtherApps: true)
+        settingsWindow?.makeKeyAndOrderFront(nil)
+    }
 
     @objc func togglePopover(_ sender: AnyObject?) {
         guard let button = statusBarItem.button else { return }
@@ -166,6 +209,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             case kVK_Delete: // Cmd+Backspace
                 state.keyAction.send(.deleteSelected)
                 return true
+            case kVK_ANSI_1, kVK_ANSI_2, kVK_ANSI_3, kVK_ANSI_4,
+                 kVK_ANSI_5, kVK_ANSI_6, kVK_ANSI_7, kVK_ANSI_8, kVK_ANSI_9:
+                if let n = digitIndex(forKeyCode: Int(event.keyCode)) {
+                    state.keyAction.send(.copyIndex(n))
+                    closePopover(nil)
+                    return true
+                }
             default:
                 break
             }
@@ -183,6 +233,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         }
 
         return false
+    }
+
+    private func digitIndex(forKeyCode code: Int) -> Int? {
+        switch code {
+        case kVK_ANSI_1: return 0
+        case kVK_ANSI_2: return 1
+        case kVK_ANSI_3: return 2
+        case kVK_ANSI_4: return 3
+        case kVK_ANSI_5: return 4
+        case kVK_ANSI_6: return 5
+        case kVK_ANSI_7: return 6
+        case kVK_ANSI_8: return 7
+        case kVK_ANSI_9: return 8
+        default: return nil
+        }
     }
 }
 

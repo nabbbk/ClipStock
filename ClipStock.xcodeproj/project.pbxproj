@@ -27,6 +27,7 @@
 		A100000001000017 /* ToastOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000033 /* ToastOverlay.swift */; };
 		A100000001000019 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000035 /* AppState.swift */; };
 		A100000001000020 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000036 /* NSView+Extensions.swift */; };
+		A100000001000099 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000099 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		A100000002000033 /* ToastOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastOverlay.swift; sourceTree = "<group>"; };
 		A100000002000035 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A100000002000036 /* NSView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
+		A100000002000099 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				A100000002000031 /* ClipboardView.swift */,
 				A100000002000032 /* ClipboardItemCard.swift */,
 				A100000002000033 /* ToastOverlay.swift */,
+				A100000002000099 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				A100000001000015 /* ClipboardView.swift in Sources */,
 				A100000001000016 /* ClipboardItemCard.swift in Sources */,
 				A100000001000017 /* ToastOverlay.swift in Sources */,
+				A100000001000099 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

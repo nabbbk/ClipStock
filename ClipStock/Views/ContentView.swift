@@ -306,6 +306,8 @@ struct StockView: View {
             try? StorageHelper.shared.storageContext.save()
         case .saveToStock:
             break
+        case .copyIndex:
+            break
         }
     }
 

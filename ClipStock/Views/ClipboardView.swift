@@ -56,13 +56,24 @@ struct ClipboardView: View {
                 ScrollViewReader { proxy in
                     ScrollView {
                         LazyVStack(spacing: 4) {
-                            ForEach(filteredClips) { clip in
+                            ForEach(Array(filteredClips.enumerated()), id: \.element.clipID) { index, clip in
                                 ClipboardItemCard(clip: clip)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
                                             .stroke(Color.accentColor, lineWidth: 2)
                                             .opacity(selectedIDs.contains(clip.clipID ?? "") ? 1 : 0)
                                     )
+                                    .overlay(alignment: .topTrailing) {
+                                        if index < 9 {
+                                            Text("⌘\(index + 1)")
+                                                .font(.caption2.monospacedDigit())
+                                                .foregroundColor(.secondary)
+                                                .padding(.horizontal, 5)
+                                                .padding(.vertical, 2)
+                                                .background(RoundedRectangle(cornerRadius: 4).fill(Color(NSColor.controlBackgroundColor).opacity(0.85)))
+                                                .padding(6)
+                                        }
+                                    }
                                     .id(clip.clipID)
                                     .onTapGesture {
                                         handleClipClick(clip, in: filteredClips)
@@ -157,6 +168,18 @@ struct ClipboardView: View {
             if !toPromote.isEmpty {
                 ToastState.shared.show(NSLocalizedString("Save to Stock", comment: ""))
             }
+        case .copyIndex(let n):
+            guard n >= 0 && n < clips.count else { return }
+            let clip = clips[n]
+            ClipboardMonitor.shared.ignoreSelfCopy()
+            let pasteboard = NSPasteboard.general
+            pasteboard.clearContents()
+            if clip.clipType == "image", let data = clip.clipImageData, let img = NSImage(data: data) {
+                pasteboard.writeObjects([img])
+            } else if let text = clip.clipText {
+                pasteboard.setString(text, forType: .string)
+            }
+            ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
         case .addItem, .markAsRead, .editItem, .addDeadline, .removeDeadline:
             break
         }

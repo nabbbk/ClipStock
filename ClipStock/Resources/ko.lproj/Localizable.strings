@@ -45,3 +45,11 @@
 "Copy" = "복사";
 "Save to Stock" = "보관함에 저장";
 "Copied!" = "복사됨!";
+"Preferences..." = "환경설정...";
+"Quit ClipStock" = "ClipStock 종료";
+"ClipStock Preferences" = "ClipStock 환경설정";
+"Global Shortcuts" = "전역 단축키";
+"Open Clipboard:" = "클립보드 열기:";
+"Open Stock:" = "보관함 열기:";
+"Quick Paste" = "빠른 붙여넣기";
+"Press ⌘1–⌘9 while the clipboard list is open to copy the Nth item." = "클립보드 목록이 열려 있을 때 ⌘1–⌘9 를 눌러 해당 번째 항목을 복사합니다.";
