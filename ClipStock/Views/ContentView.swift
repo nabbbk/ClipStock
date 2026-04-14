@@ -9,6 +9,7 @@ enum AppTab: String, CaseIterable {
 struct ContentView: View {
 
     @ObservedObject private var appState = AppState.shared
+    @AppStorage(PreferenceKey.launchAtLogin) private var launchAtLogin: Bool = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -35,21 +36,11 @@ struct ContentView: View {
 
             // Shared footer
             VStack(spacing: 6) {
-                Toggle(NSLocalizedString("Launch at login", comment: ""), isOn: Binding(
-                    get: { SMAppService.mainApp.status == .enabled },
-                    set: { newValue in
-                        do {
-                            if newValue {
-                                try SMAppService.mainApp.register()
-                            } else {
-                                try SMAppService.mainApp.unregister()
-                            }
-                        } catch {
-                            print("Launch at login error: \(error)")
-                        }
+                Toggle(NSLocalizedString("Launch at login", comment: ""), isOn: $launchAtLogin)
+                    .toggleStyle(.checkbox)
+                    .onChange(of: launchAtLogin) { newValue in
+                        try? LaunchAtLoginHelper.setEnabled(newValue)
                     }
-                ))
-                .toggleStyle(.checkbox)
 
                 HStack {
                     Button {
@@ -305,6 +296,8 @@ struct StockView: View {
             for item in toRemove { item.dueDate = nil }
             try? StorageHelper.shared.storageContext.save()
         case .saveToStock:
+            break
+        case .copyIndex, .copyPlainText, .togglePin:
             break
         }
     }

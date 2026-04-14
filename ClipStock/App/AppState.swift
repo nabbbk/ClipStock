@@ -15,6 +15,9 @@ enum KeyAction {
     case addDeadline
     case removeDeadline
     case saveToStock
+    case copyIndex(Int)
+    case copyPlainText
+    case togglePin
 }
 
 class AppState: ObservableObject {

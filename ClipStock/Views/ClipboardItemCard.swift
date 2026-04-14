@@ -54,9 +54,19 @@ struct ClipboardItemCard: View {
 
                 Spacer(minLength: 4)
 
+                if clip.isPinned {
+                    Image(systemName: "pin.fill")
+                        .font(.system(size: 11))
+                        .foregroundColor(.orange)
+                        .padding(.trailing, 2)
+                }
+
                 // Action menu — use contextMenu-style button instead of Menu with borderlessButton
                 Menu {
                     Button(NSLocalizedString("Copy", comment: "")) { actionCopy() }
+                    Button(clip.isPinned
+                           ? NSLocalizedString("Unpin", comment: "")
+                           : NSLocalizedString("Pin", comment: "")) { actionTogglePin() }
                     Button(NSLocalizedString("Save to Stock", comment: "")) { actionPromoteToStock() }
                     Divider()
                     Button(NSLocalizedString("Delete", comment: ""), role: .destructive) { actionDelete() }
@@ -130,6 +140,10 @@ struct ClipboardItemCard: View {
 
     private func actionPromoteToStock() {
         StorageHelper.shared.promoteClipToStock(clip)
+    }
+
+    private func actionTogglePin() {
+        StorageHelper.shared.togglePin(clip)
     }
 
     private func actionDelete() {

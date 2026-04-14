@@ -18,5 +18,6 @@
         <attribute name="clipSourceApp" optional="YES" attributeType="String"/>
         <attribute name="clipText" optional="YES" attributeType="String"/>
         <attribute name="clipType" optional="YES" attributeType="String"/>
+        <attribute name="isPinned" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
     </entity>
 </model>

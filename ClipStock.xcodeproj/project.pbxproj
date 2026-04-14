@@ -27,6 +27,10 @@
 		A100000001000017 /* ToastOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000033 /* ToastOverlay.swift */; };
 		A100000001000019 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000035 /* AppState.swift */; };
 		A100000001000020 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000036 /* NSView+Extensions.swift */; };
+		A100000001000099 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000099 /* SettingsView.swift */; };
+		A1000000010000A1 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A1 /* Preferences.swift */; };
+		A1000000010000A2 /* PasteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A2 /* PasteHelper.swift */; };
+		A1000000010000A3 /* LaunchAtLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A3 /* LaunchAtLoginHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +57,10 @@
 		A100000002000033 /* ToastOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastOverlay.swift; sourceTree = "<group>"; };
 		A100000002000035 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A100000002000036 /* NSView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
+		A100000002000099 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A1000000020000A1 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		A1000000020000A2 /* PasteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteHelper.swift; sourceTree = "<group>"; };
+		A1000000020000A3 /* LaunchAtLoginHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +103,9 @@
 				A100000002000001 /* ClipStockApp.swift */,
 				A100000002000002 /* AppDelegate.swift */,
 				A100000002000035 /* AppState.swift */,
+				A1000000020000A1 /* Preferences.swift */,
+				A1000000020000A2 /* PasteHelper.swift */,
+				A1000000020000A3 /* LaunchAtLoginHelper.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -109,6 +120,7 @@
 				A100000002000031 /* ClipboardView.swift */,
 				A100000002000032 /* ClipboardItemCard.swift */,
 				A100000002000033 /* ToastOverlay.swift */,
+				A100000002000099 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -242,6 +254,10 @@
 				A100000001000015 /* ClipboardView.swift in Sources */,
 				A100000001000016 /* ClipboardItemCard.swift in Sources */,
 				A100000001000017 /* ToastOverlay.swift in Sources */,
+				A100000001000099 /* SettingsView.swift in Sources */,
+				A1000000010000A1 /* Preferences.swift in Sources */,
+				A1000000010000A2 /* PasteHelper.swift in Sources */,
+				A1000000010000A3 /* LaunchAtLoginHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
