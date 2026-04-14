@@ -271,6 +271,15 @@ struct StockView: View {
                                         }
                                     }
                                     .id(item.itemID)
+                                    .onDrag {
+                                        draggedItemID = item.itemID
+                                        return NSItemProvider(object: (item.itemID ?? "") as NSString)
+                                    }
+                                    .onDrop(of: [.text], delegate: StockDropDelegate(
+                                        targetItem: item,
+                                        items: filteredItems,
+                                        draggedItemID: $draggedItemID
+                                    ))
                                     .onTapGesture {
                                         NSPasteboard.general.clearContents()
                                         if let url = item.itemURL {
@@ -278,11 +287,7 @@ struct StockView: View {
                                         } else {
                                             NSPasteboard.general.setString(item.itemName ?? "", forType: .string)
                                         }
-                                        if let appDelegate = NSApp.delegate as? AppDelegate {
-                                            appDelegate.closePopover(nil)
-                                            // Force-close if performClose didn't work
-                                            appDelegate.popoverContentView?.window?.orderOut(nil)
-                                        }
+                                        ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
                                     }
                             }
                         }
