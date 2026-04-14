@@ -178,6 +178,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
                     state.selectedTab = state.selectedTab == .stock ? .clipboard : .stock
                     return true
                 }
+            case 123: // ←
+                state.selectedTab = .stock
+                return true
+            case 124: // →
+                state.selectedTab = .clipboard
+                return true
             case 36: // Enter
                 if !hasShift {
                     state.keyAction.send(.copySelected)
@@ -260,7 +266,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         // Cmd+Option shortcuts
         if flags == [.command, .option] && !sheetOpen {
             switch Int(event.keyCode) {
-            case kVK_ANSI_V:
+            case kVK_ANSI_C:
                 state.keyAction.send(.copyPlainText)
                 return true
             default:

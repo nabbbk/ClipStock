@@ -54,10 +54,10 @@ struct SettingsView: View {
 
                 Divider()
 
-                // Quick paste explainer
-                section(title: NSLocalizedString("Quick Paste", comment: "")) {
+                // Quick copy explainer
+                section(title: NSLocalizedString("Quick Copy", comment: "")) {
                     bullet(NSLocalizedString("Press ⌘1–⌘9 while the clipboard list is open to copy the Nth item.", comment: ""))
-                    bullet(NSLocalizedString("Press ⌥⌘V on the selected item to copy it as plain text.", comment: ""))
+                    bullet(NSLocalizedString("Press ⌥⌘C on the selected item to copy it as plain text.", comment: ""))
                     bullet(NSLocalizedString("Press ⌘P on the selected item to pin it to the top.", comment: ""))
                 }
             }

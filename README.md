@@ -21,8 +21,8 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 - **Drag-and-drop** clippings into any app
 - **Smart deduplication** — copying the same text moves it to the top instead of creating duplicates
 - **Pinned items** — keep important clips at the top; pinned items are exempt from the history limit
-- **Quick paste** — `⌘1`–`⌘9` copies the Nth visible clip (Maccy-style)
-- **Plain text paste** — `⌥⌘V` strips formatting from the selected clip
+- **Quick copy** — `⌘1`–`⌘9` copies the Nth visible clip (Maccy-style)
+- **Plain text copy** — `⌥⌘C` strips formatting from the selected clip
 - **Configurable history limit** — default 500, adjustable in Preferences
 - **Self-aware** — doesn't capture copies made from within the app
 
@@ -56,10 +56,11 @@ Both shortcuts are remappable in **Preferences** (right-click the menu bar icon 
 |---|---|
 | `↑` / `↓` | Navigate items |
 | `Shift+↑` / `Shift+↓` | Extend selection |
-| `Tab` | Switch between Stock/Clipboard |
+| `Tab` / `←` / `→` | Switch between Stock/Clipboard |
 | `Enter` | Copy selected item |
 | `Esc` | Close popover |
 | `Cmd+F` | Focus search field |
+| `Cmd+1` … `Cmd+9` | Copy the Nth visible item and close the popover |
 
 ### Stock Tab
 
@@ -78,8 +79,7 @@ Both shortcuts are remappable in **Preferences** (right-click the menu bar icon 
 |---|---|
 | `Cmd+S` | Save selected to Stock |
 | `Cmd+P` | Pin / unpin selected clip |
-| `Cmd+1` … `Cmd+9` | Copy the Nth visible clip and close the popover |
-| `Option+Cmd+V` | Copy selected clip as plain text (strip formatting) |
+| `Option+Cmd+C` | Copy selected clip as plain text (strip formatting) |
 | `Cmd+Backspace` | Delete selected |
 
 ### Dialogs
@@ -143,7 +143,7 @@ This project is inspired by and based on [ItemStock](https://github.com/mszpro/I
 - In-app toast notifications
 - Sheet-based dialogs
 - Preferences window with remappable global shortcuts (`KeyboardShortcuts`)
-- Pinned clips, `⌘1`–`⌘9` quick paste, `⌥⌘V` plain text paste
+- Pinned clips, `⌘1`–`⌘9` quick copy, `⌥⌘C` plain text copy
 - Optional paste-on-select using `CGEvent` (Accessibility permission required)
 
 ## License

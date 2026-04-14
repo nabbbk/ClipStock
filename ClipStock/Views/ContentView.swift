@@ -204,13 +204,24 @@ struct StockView: View {
                 ScrollViewReader { proxy in
                     ScrollView {
                         LazyVStack(spacing: 4) {
-                            ForEach(filteredItems) { item in
+                            ForEach(Array(filteredItems.enumerated()), id: \.element.itemID) { index, item in
                                 ItemViewCard(itemObject: item)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
                                             .stroke(Color.accentColor, lineWidth: 2)
                                             .opacity(selectedIDs.contains(item.itemID ?? "") ? 1 : 0)
                                     )
+                                    .overlay(alignment: .topTrailing) {
+                                        if index < 9 {
+                                            Text("⌘\(index + 1)")
+                                                .font(.caption2.monospacedDigit())
+                                                .foregroundColor(.secondary)
+                                                .padding(.horizontal, 5)
+                                                .padding(.vertical, 2)
+                                                .background(RoundedRectangle(cornerRadius: 4).fill(Color(NSColor.controlBackgroundColor).opacity(0.85)))
+                                                .padding(6)
+                                        }
+                                    }
                                     .id(item.itemID)
                                     .onTapGesture {
                                         handleItemClick(item, in: filteredItems)
@@ -297,7 +308,20 @@ struct StockView: View {
             try? StorageHelper.shared.storageContext.save()
         case .saveToStock:
             break
-        case .copyIndex, .copyPlainText, .togglePin:
+        case .copyIndex(let n):
+            guard n >= 0 && n < items.count else { return }
+            let item = items[n]
+            ClipboardMonitor.shared.ignoreSelfCopy()
+            NSPasteboard.general.clearContents()
+            if let url = item.itemURL {
+                NSPasteboard.general.setString(url.absoluteString, forType: .string)
+            } else {
+                NSPasteboard.general.setString(item.itemName ?? "", forType: .string)
+            }
+            item.itemUnread = false
+            try? StorageHelper.shared.storageContext.save()
+            ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
+        case .copyPlainText, .togglePin:
             break
         }
     }

@@ -51,7 +51,7 @@
 "Global Shortcuts" = "전역 단축키";
 "Open Clipboard:" = "클립보드 열기:";
 "Open Stock:" = "보관함 열기:";
-"Quick Paste" = "빠른 붙여넣기";
+"Quick Copy" = "빠른 복사";
 "Press ⌘1–⌘9 while the clipboard list is open to copy the Nth item." = "클립보드 목록이 열려 있을 때 ⌘1–⌘9 를 눌러 해당 번째 항목을 복사합니다.";
 "Click a field, then press the key combination you want." = "입력란을 클릭한 다음 원하는 단축키 조합을 누르세요.";
 "Open Clipboard" = "클립보드 열기";
@@ -60,7 +60,7 @@
 "Launch at login" = "로그인 시 자동 실행";
 "Paste on select (requires Accessibility permission)" = "선택 시 자동 붙여넣기 (손쉬운 사용 권한 필요)";
 "Keep last" = "최근 보관";
-"Press ⌥⌘V on the selected item to copy it as plain text." = "선택한 항목에서 ⌥⌘V 를 누르면 서식 없이 텍스트만 복사됩니다.";
+"Press ⌥⌘C on the selected item to copy it as plain text." = "선택한 항목에서 ⌥⌘C 를 누르면 서식 없이 텍스트만 복사됩니다.";
 "Press ⌘P on the selected item to pin it to the top." = "선택한 항목에서 ⌘P 를 누르면 상단에 고정됩니다.";
 "Copied as plain text" = "텍스트만 복사됨";
 "Pinned" = "고정됨";
