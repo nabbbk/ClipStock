@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 
         let popover = NSPopover()
         popover.contentSize = NSSize(width: 400, height: 560)
-        popover.behavior = .transient
+        popover.behavior = .applicationDefined
         popover.contentViewController = NSHostingController(rootView: contentView)
         popover.delegate = self
         self.popover = popover
@@ -125,7 +125,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         }
     }
 
-    private func closePopover(_ sender: AnyObject?) {
+    func closePopover(_ sender: AnyObject?) {
         popover.performClose(sender)
         if let monitor = eventMonitor {
             NSEvent.removeMonitor(monitor)

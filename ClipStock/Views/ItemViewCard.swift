@@ -101,7 +101,6 @@ struct ItemViewCard: View {
         .padding(8)
         .background(RoundedRectangle(cornerRadius: 8).fill(Color(NSColor.controlBackgroundColor)))
         .contentShape(Rectangle())
-        .onTapGesture { actionOpen() }
     }
 
     // MARK: - Actions

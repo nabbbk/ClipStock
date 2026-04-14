@@ -256,6 +256,7 @@ struct StockView: View {
                                         RoundedRectangle(cornerRadius: 8)
                                             .stroke(Color.accentColor, lineWidth: 2)
                                             .opacity(selectedIDs.contains(item.itemID ?? "") ? 1 : 0)
+                                            .allowsHitTesting(false)
                                     )
                                     .overlay(alignment: .topTrailing) {
                                         if index < 9 {
@@ -266,20 +267,22 @@ struct StockView: View {
                                                 .padding(.vertical, 2)
                                                 .background(RoundedRectangle(cornerRadius: 4).fill(Color(NSColor.controlBackgroundColor).opacity(0.85)))
                                                 .padding(6)
+                                                .allowsHitTesting(false)
                                         }
                                     }
                                     .id(item.itemID)
-                                    .onDrag {
-                                        draggedItemID = item.itemID
-                                        return NSItemProvider(object: (item.itemID ?? "") as NSString)
-                                    }
-                                    .onDrop(of: [.text], delegate: StockDropDelegate(
-                                        targetItem: item,
-                                        items: filteredItems,
-                                        draggedItemID: $draggedItemID
-                                    ))
                                     .onTapGesture {
-                                        handleItemClick(item, in: filteredItems)
+                                        NSPasteboard.general.clearContents()
+                                        if let url = item.itemURL {
+                                            NSPasteboard.general.setString(url.absoluteString, forType: .string)
+                                        } else {
+                                            NSPasteboard.general.setString(item.itemName ?? "", forType: .string)
+                                        }
+                                        if let appDelegate = NSApp.delegate as? AppDelegate {
+                                            appDelegate.closePopover(nil)
+                                            // Force-close if performClose didn't work
+                                            appDelegate.popoverContentView?.window?.orderOut(nil)
+                                        }
                                     }
                             }
                         }

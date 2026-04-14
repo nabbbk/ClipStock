@@ -124,7 +124,10 @@ struct ClipboardItemCard: View {
 
     private func actionOpen() {
         actionCopy()
-        ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
+        if let appDelegate = NSApp.delegate as? AppDelegate {
+            appDelegate.closePopover(nil)
+            appDelegate.popoverContentView?.window?.orderOut(nil)
+        }
     }
 
     private func actionCopy() {

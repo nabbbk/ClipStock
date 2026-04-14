@@ -65,6 +65,7 @@ struct ClipboardView: View {
                                         RoundedRectangle(cornerRadius: 8)
                                             .stroke(Color.accentColor, lineWidth: 2)
                                             .opacity(selectedIDs.contains(clip.clipID ?? "") ? 1 : 0)
+                                            .allowsHitTesting(false)
                                     )
                                     .overlay(alignment: .topTrailing) {
                                         if index < 9 {
@@ -75,6 +76,7 @@ struct ClipboardView: View {
                                                 .padding(.vertical, 2)
                                                 .background(RoundedRectangle(cornerRadius: 4).fill(Color(NSColor.controlBackgroundColor).opacity(0.85)))
                                                 .padding(6)
+                                                .allowsHitTesting(false)
                                         }
                                     }
                                     .id(clip.clipID)
