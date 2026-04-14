@@ -21,6 +21,14 @@ class StorageHelper {
         self.storageContext = context
     }
 
+    private func nextSortIndex() -> Int32 {
+        let request = NSFetchRequest<StockItem>(entityName: "StockItem")
+        request.sortDescriptors = [NSSortDescriptor(key: "sortIndex", ascending: false)]
+        request.fetchLimit = 1
+        let max = (try? storageContext.fetch(request).first)?.sortIndex ?? -1
+        return max + 1
+    }
+
     func saveToCoreData(itemURL: URL?, itemTitle: String, itemIconData: Data?, tag: String? = nil) {
         let newItem = StockItem(context: storageContext)
         newItem.itemID = UUID().uuidString
@@ -29,6 +37,7 @@ class StorageHelper {
         newItem.itemName = itemTitle
         newItem.itemIconData = itemIconData
         newItem.itemTag = tag
+        newItem.sortIndex = nextSortIndex()
         do {
             try storageContext.save()
         } catch {
@@ -41,6 +50,7 @@ class StorageHelper {
         let newItem = StockItem(context: storageContext)
         newItem.itemID = UUID().uuidString
         newItem.addedDate = Date()
+        newItem.sortIndex = nextSortIndex()
 
         switch clip.clipType {
         case "link":

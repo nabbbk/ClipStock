@@ -5,6 +5,9 @@ struct ItemViewCard: View {
     @ObservedObject var itemObject: StockItem
 
     var body: some View {
+        if itemObject.isDeleted || itemObject.managedObjectContext == nil {
+            EmptyView()
+        } else {
         HStack(spacing: 8) {
 
             // Icon
@@ -101,6 +104,7 @@ struct ItemViewCard: View {
         .padding(8)
         .background(RoundedRectangle(cornerRadius: 8).fill(Color(NSColor.controlBackgroundColor)))
         .contentShape(Rectangle())
+        }
     }
 
     // MARK: - Actions
