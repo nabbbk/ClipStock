@@ -123,12 +123,51 @@ class DialogDatePicker: NSDatePicker {
     }
 }
 
+// MARK: - Drag-and-Drop Reorder
+
+struct StockDropDelegate: DropDelegate {
+    let targetItem: StockItem
+    let items: [StockItem]
+    @Binding var draggedItemID: String?
+
+    func performDrop(info: DropInfo) -> Bool {
+        draggedItemID = nil
+        return true
+    }
+
+    func dropEntered(info: DropInfo) {
+        guard let draggedID = draggedItemID,
+              draggedID != targetItem.itemID,
+              let fromIndex = items.firstIndex(where: { $0.itemID == draggedID }),
+              let toIndex = items.firstIndex(where: { $0.itemID == targetItem.itemID })
+        else { return }
+
+        withAnimation(.default) {
+            // Reassign sortIndex for all items based on new order
+            var reordered = items
+            let moved = reordered.remove(at: fromIndex)
+            reordered.insert(moved, at: toIndex)
+            for (i, item) in reordered.enumerated() {
+                item.sortIndex = Int32(i)
+            }
+            try? StorageHelper.shared.storageContext.save()
+        }
+    }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        DropProposal(operation: .move)
+    }
+}
+
 // MARK: - Stock Tab (extracted from original ContentView)
 
 struct StockView: View {
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \StockItem.addedDate, ascending: false)],
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \StockItem.sortIndex, ascending: true),
+            NSSortDescriptor(keyPath: \StockItem.addedDate, ascending: false)
+        ],
         animation: .default)
     private var items: FetchedResults<StockItem>
 
@@ -138,6 +177,7 @@ struct StockView: View {
     @State private var selectedIDs: Set<String> = []
     @State private var cursorID: String?
     @State private var anchorID: String?
+    @State private var draggedItemID: String?
     @FocusState private var stockSearchFocused: Bool
 
     var body: some View {
@@ -223,6 +263,15 @@ struct StockView: View {
                                         }
                                     }
                                     .id(item.itemID)
+                                    .onDrag {
+                                        draggedItemID = item.itemID
+                                        return NSItemProvider(object: (item.itemID ?? "") as NSString)
+                                    }
+                                    .onDrop(of: [.text], delegate: StockDropDelegate(
+                                        targetItem: item,
+                                        items: filteredItems,
+                                        draggedItemID: $draggedItemID
+                                    ))
                                     .onTapGesture {
                                         handleItemClick(item, in: filteredItems)
                                     }
@@ -259,15 +308,12 @@ struct StockView: View {
             moveCursor(1, in: items, extend: true)
         case .copySelected:
             if let id = cursorID, let item = items.first(where: { $0.itemID == id }) {
-                ClipboardMonitor.shared.ignoreSelfCopy()
                 NSPasteboard.general.clearContents()
                 if let url = item.itemURL {
                     NSPasteboard.general.setString(url.absoluteString, forType: .string)
                 } else {
                     NSPasteboard.general.setString(item.itemName ?? "", forType: .string)
                 }
-                item.itemUnread = false
-                try? StorageHelper.shared.storageContext.save()
                 ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
             }
         case .deleteSelected:
@@ -290,10 +336,6 @@ struct StockView: View {
             stockSearchFocused = true
         case .addItem:
             actionManuallyAddItem()
-        case .markAsRead:
-            let toToggle = items.filter { selectedIDs.contains($0.itemID ?? "") }
-            for item in toToggle { item.itemUnread.toggle() }
-            try? StorageHelper.shared.storageContext.save()
         case .editItem:
             if let id = cursorID, let item = items.first(where: { $0.itemID == id }) {
                 actionEditItem(item)
@@ -311,15 +353,12 @@ struct StockView: View {
         case .copyIndex(let n):
             guard n >= 0 && n < items.count else { return }
             let item = items[n]
-            ClipboardMonitor.shared.ignoreSelfCopy()
             NSPasteboard.general.clearContents()
             if let url = item.itemURL {
                 NSPasteboard.general.setString(url.absoluteString, forType: .string)
             } else {
                 NSPasteboard.general.setString(item.itemName ?? "", forType: .string)
             }
-            item.itemUnread = false
-            try? StorageHelper.shared.storageContext.save()
             ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
         case .copyPlainText, .togglePin:
             break

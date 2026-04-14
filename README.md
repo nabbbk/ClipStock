@@ -10,7 +10,7 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 - **Search** saved items by name or tag
 - **Tags** for organizing items
 - **Due dates** with overdue indicators
-- **Read/unread tracking** with badge counter on the menu bar icon
+- **Drag to reorder** — rearrange items by dragging
 - **iCloud link sharing** for files in iCloud Drive
 - **Tap to copy** any item to clipboard
 
@@ -24,7 +24,7 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 - **Quick copy** — `⌘1`–`⌘9` copies the Nth visible clip (Maccy-style)
 - **Plain text copy** — `⌥⌘C` strips formatting from the selected clip
 - **Configurable history limit** — default 500, adjustable in Preferences
-- **Self-aware** — doesn't capture copies made from within the app
+- **Self-aware** — doesn't re-capture copies made from within the Clipboard tab
 
 ### General
 - **Preferences window** — rebind global shortcuts, configure behavior; open via right-click on the menu bar icon
@@ -57,7 +57,7 @@ Both shortcuts are remappable in **Preferences** (right-click the menu bar icon 
 | `↑` / `↓` | Navigate items |
 | `Shift+↑` / `Shift+↓` | Extend selection |
 | `Tab` / `←` / `→` | Switch between Stock/Clipboard |
-| `Enter` | Copy selected item |
+| `Enter` / `Cmd+C` | Copy selected item |
 | `Esc` | Close popover |
 | `Cmd+F` | Focus search field |
 | `Cmd+1` … `Cmd+9` | Copy the Nth visible item and close the popover |
@@ -67,7 +67,6 @@ Both shortcuts are remappable in **Preferences** (right-click the menu bar icon 
 | Shortcut | Action |
 |---|---|
 | `Cmd+N` | Add new item |
-| `Cmd+R` | Toggle read/unread |
 | `Cmd+E` | Edit item |
 | `Cmd+D` | Add/edit deadline |
 | `Cmd+Shift+D` | Remove deadline |
@@ -143,8 +142,11 @@ This project is inspired by and based on [ItemStock](https://github.com/mszpro/I
 - In-app toast notifications
 - Sheet-based dialogs
 - Preferences window with remappable global shortcuts (`KeyboardShortcuts`)
+- Full keyboard shortcut system with multi-selection
+- Drag-to-reorder stock items
 - Pinned clips, `⌘1`–`⌘9` quick copy, `⌥⌘C` plain text copy
 - Optional paste-on-select using `CGEvent` (Accessibility permission required)
+- Removed read/unread tracking (unnecessary for clipboard manager use case)
 
 ## License
 

@@ -199,7 +199,7 @@ struct ClipboardView: View {
                     ? NSLocalizedString("Pinned", comment: "")
                     : NSLocalizedString("Unpinned", comment: ""))
             }
-        case .addItem, .markAsRead, .editItem, .addDeadline, .removeDeadline:
+        case .addItem, .editItem, .addDeadline, .removeDeadline:
             break
         }
     }

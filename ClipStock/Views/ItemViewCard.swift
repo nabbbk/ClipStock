@@ -13,13 +13,6 @@ struct ItemViewCard: View {
     var body: some View {
         HStack(spacing: 8) {
 
-            // Unread badge
-            if itemObject.itemUnread {
-                Circle()
-                    .fill(.blue)
-                    .frame(width: 8, height: 8)
-            }
-
             // Icon
             if let data = itemObject.itemIconData, let img = NSImage(data: data) {
                 Image(nsImage: img)
@@ -82,12 +75,6 @@ struct ItemViewCard: View {
                     }
                 }
 
-                Button(itemObject.itemUnread
-                       ? NSLocalizedString("Mark as read", comment: "")
-                       : NSLocalizedString("Mark as unread", comment: "")) {
-                    actionMarkAsRead()
-                }
-
                 Button(NSLocalizedString("Edit", comment: "")) {
                     actionPresentEditDialog()
                 }
@@ -121,24 +108,12 @@ struct ItemViewCard: View {
         .background(RoundedRectangle(cornerRadius: 8).fill(Color(NSColor.controlBackgroundColor)))
         .contentShape(Rectangle())
         .onTapGesture { actionOpen() }
-        .onDrag {
-            if let url = itemObject.itemURL {
-                return url.isFileURL
-                    ? NSItemProvider(object: url.path as NSString)
-                    : NSItemProvider(object: url as NSURL)
-            }
-            return NSItemProvider(object: (itemObject.itemName ?? "") as NSString)
-        }
     }
 
     // MARK: - Actions
 
     private func actionOpen() {
-        itemObject.itemUnread = false
-        try? StorageHelper.shared.storageContext.save()
-
         // Copy content to clipboard
-        ClipboardMonitor.shared.ignoreSelfCopy()
         NSPasteboard.general.clearContents()
         if let url = itemObject.itemURL {
             NSPasteboard.general.setString(url.absoluteString, forType: .string)
@@ -177,10 +152,7 @@ struct ItemViewCard: View {
         }
     }
 
-    private func actionMarkAsRead() {
-        itemObject.itemUnread.toggle()
-        try? StorageHelper.shared.storageContext.save()
-    }
+
 
     private func actionPresentEditDialog() {
         let dialog = NSAlert()

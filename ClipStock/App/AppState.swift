@@ -10,7 +10,6 @@ enum KeyAction {
     case navigateDown
     case navigateUpExtend
     case navigateDownExtend
-    case markAsRead
     case editItem
     case addDeadline
     case removeDeadline

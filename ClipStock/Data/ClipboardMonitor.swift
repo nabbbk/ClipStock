@@ -6,7 +6,7 @@ class ClipboardMonitor {
 
     private var timer: Timer?
     private var lastChangeCount: Int
-    private var skipNextChange = false
+    private var skipNextChange = 0
 
     private init() {
         lastChangeCount = NSPasteboard.general.changeCount
@@ -14,7 +14,7 @@ class ClipboardMonitor {
 
     /// Call this before writing to the pasteboard from within the app.
     func ignoreSelfCopy() {
-        skipNextChange = true
+        skipNextChange = 2  // clearContents + setString both increment changeCount
     }
 
     func start() {
@@ -35,8 +35,8 @@ class ClipboardMonitor {
         lastChangeCount = pasteboard.changeCount
 
         // Skip if the app itself wrote to the clipboard
-        if skipNextChange {
-            skipNextChange = false
+        if skipNextChange > 0 {
+            skipNextChange -= 1
             return
         }
 

@@ -41,8 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         guard let button = statusBarItem.button else { return }
         button.image = NSImage(systemSymbolName: "tray.full.fill", accessibilityDescription: "ClipStock")
-        button.imagePosition = .imageLeft
-        button.title = "\(persistence.getUnreadItemCounting())"
         button.action = #selector(statusBarButtonClicked(_:))
         button.target = self
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
@@ -62,7 +60,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     }
 
     func popoverWillClose(_ notification: Notification) {
-        statusBarItem.button?.title = "\(persistence.getUnreadItemCounting())"
     }
 
     // MARK: - Popover Toggle
@@ -128,7 +125,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
                 self?.closePopover(nil)
             }
         }
-        button.title = "\(persistence.getUnreadItemCounting())"
     }
 
     private func closePopover(_ sender: AnyObject?) {
@@ -212,14 +208,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             case kVK_ANSI_F:
                 state.keyAction.send(.focusSearch)
                 return true
+            case kVK_ANSI_C:
+                if !textFieldActive {
+                    state.keyAction.send(.copySelected)
+                    return true
+                }
             case kVK_ANSI_N:
                 if state.selectedTab == .stock {
                     state.keyAction.send(.addItem)
                     return true
                 }
-            case kVK_ANSI_R:
-                state.keyAction.send(.markAsRead)
-                return true
             case kVK_ANSI_E:
                 state.keyAction.send(.editItem)
                 return true
@@ -313,9 +311,6 @@ extension AppDelegate: NSWindowDelegate, NSDraggingDestination {
 
         MetaDataHelper.fetchItemMetaData(droppedItem: firstObject) { iconData, itemTitle, itemURL in
             self.persistence.saveToCoreData(itemURL: itemURL, itemTitle: itemTitle, itemIconData: iconData)
-            DispatchQueue.main.async {
-                self.statusBarItem.button?.title = "\(self.persistence.getUnreadItemCounting())"
-            }
 
             // Remind first-time user that only file references are saved
             if !UserDefaults.standard.bool(forKey: "file-path-reminder-shown") {

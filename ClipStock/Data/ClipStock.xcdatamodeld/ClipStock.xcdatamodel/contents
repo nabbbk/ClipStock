@@ -10,6 +10,7 @@
         <attribute name="itemTag" optional="YES" attributeType="String"/>
         <attribute name="itemUnread" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="itemURL" optional="YES" attributeType="URI"/>
+        <attribute name="sortIndex" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="ClipboardItem" representedClassName="ClipboardItem" syncable="YES" codeGenerationType="class">
         <attribute name="clipDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

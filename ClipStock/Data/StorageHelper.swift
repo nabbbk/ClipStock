@@ -28,7 +28,6 @@ class StorageHelper {
         newItem.itemURL = itemURL
         newItem.itemName = itemTitle
         newItem.itemIconData = itemIconData
-        newItem.itemUnread = true
         newItem.itemTag = tag
         do {
             try storageContext.save()
@@ -37,22 +36,11 @@ class StorageHelper {
         }
     }
 
-    func getUnreadItemCounting() -> Int {
-        let request = NSFetchRequest<StockItem>(entityName: "StockItem")
-        request.predicate = NSPredicate(format: "itemUnread == YES")
-        do {
-            return try storageContext.count(for: request)
-        } catch {
-            return 0
-        }
-    }
-
     /// Promote a clipboard item to a permanent stock item.
     func promoteClipToStock(_ clip: ClipboardItem) {
         let newItem = StockItem(context: storageContext)
         newItem.itemID = UUID().uuidString
         newItem.addedDate = Date()
-        newItem.itemUnread = true
 
         switch clip.clipType {
         case "link":
