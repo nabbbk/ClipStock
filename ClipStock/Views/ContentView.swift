@@ -172,9 +172,22 @@ struct StockView: View {
     private var items: FetchedResults<StockItem>
 
     @State private var searchText = ""
-    @State private var allTags: Set<String> = []
     @State private var selectedTag = NSLocalizedString("All", comment: "")
     @State private var selectedIDs: Set<String> = []
+
+    private var allTags: [String] {
+        var tags: Set<String> = [NSLocalizedString("All", comment: "")]
+        for item in items {
+            if let tagString = item.itemTag {
+                for tag in tagString.split(separator: ",") {
+                    tags.insert(tag.trimmingCharacters(in: .whitespaces))
+                }
+            } else {
+                tags.insert(NSLocalizedString("Un-Tagged", comment: ""))
+            }
+        }
+        return tags.sorted()
+    }
     @State private var cursorID: String?
     @State private var anchorID: String?
     @State private var draggedItemID: String?
@@ -226,16 +239,9 @@ struct StockView: View {
                 }
                 Spacer()
             } else {
-                HStack {
-                    Menu(selectedTag) {
-                        ForEach(allTags.sorted(), id: \.self) { tag in
-                            Button(tag) { selectedTag = tag }
-                        }
-                    }
-                    Button {
-                        allTags = StorageHelper.shared.getAllTags()
-                    } label: {
-                        Image(systemName: "arrow.counterclockwise.circle.fill")
+                Menu(selectedTag) {
+                    ForEach(allTags, id: \.self) { tag in
+                        Button(tag) { selectedTag = tag }
                     }
                 }
                 .padding(.horizontal)
@@ -287,7 +293,6 @@ struct StockView: View {
             }
         }
         .onAppear {
-            allTags = StorageHelper.shared.getAllTags()
             DispatchQueue.main.async { stockSearchFocused = false }
         }
         .onReceive(AppState.shared.keyAction) { action in
@@ -462,7 +467,6 @@ struct StockView: View {
         buttons.last?.nextKeyView = textView
 
         // Enable focus rings on dialog buttons
-        for button in dialog.buttons { button.focusRingType = .exterior }
 
         guard let window = NSApplication.shared.windows.first(where: { $0.isVisible && $0.className.contains("Popover") }) ?? NSApplication.shared.keyWindow else { return }
         // Auto-focus content field after sheet appears
@@ -473,17 +477,7 @@ struct StockView: View {
             guard response == .alertFirstButtonReturn,
                   !textView.string.isEmpty else { return }
 
-            var tag: String? = nil
-            if !tagField.stringValue.isEmpty {
-                let formatted = tagField.stringValue
-                    .split(separator: ",")
-                    .map { t in
-                        let trimmed = t.trimmingCharacters(in: .whitespaces)
-                        return trimmed.hasPrefix("#") ? trimmed : "#\(trimmed)"
-                    }
-                    .joined(separator: ",")
-                tag = formatted
-            }
+            let tag = TagFormatter.forStorage(tagField.stringValue)
 
             var inputValue: Any = textView.string
             if let url = URL(string: textView.string), url.scheme != nil {
@@ -496,105 +490,10 @@ struct StockView: View {
     }
 
     private func actionEditItem(_ item: StockItem) {
-        let dialog = NSAlert()
-        dialog.messageText = NSLocalizedString("Edit item details", comment: "")
-
-        let stack = NSStackView(frame: NSRect(x: 0, y: 0, width: 260, height: 140))
-        stack.orientation = .vertical
-        stack.spacing = 8
-
-        let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 260, height: 100))
-        let titleField = DialogTextView(frame: scrollView.contentView.bounds)
-        titleField.string = item.itemName ?? ""
-        titleField.isEditable = true
-        titleField.isRichText = false
-        titleField.font = .systemFont(ofSize: 13)
-        titleField.autoresizingMask = [.width, .height]
-        titleField.isVerticallyResizable = true
-        titleField.textContainer?.widthTracksTextView = true
-        scrollView.documentView = titleField
-        scrollView.hasVerticalScroller = true
-        scrollView.borderType = .bezelBorder
-
-        let tagField = DialogTagField(frame: NSRect(x: 0, y: 0, width: 260, height: 24))
-        tagField.stringValue = (item.itemTag ?? "")
-            .split(separator: ",")
-            .map { $0.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "#", with: "") }
-            .joined(separator: ", ")
-        tagField.placeholderString = "Tag"
-        tagField.font = .systemFont(ofSize: 13)
-
-        stack.addArrangedSubview(scrollView)
-        stack.addArrangedSubview(tagField)
-        dialog.accessoryView = stack
-
-        let okButton = dialog.addButton(withTitle: "OK")
-        okButton.keyEquivalent = ""
-        let cancelButton = dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        cancelButton.keyEquivalent = "\u{1b}"
-        for button in dialog.buttons { button.focusRingType = .exterior }
-
-        titleField.alert = dialog
-        titleField.tabTarget = tagField
-        tagField.alert = dialog
-
-        let buttons2 = dialog.buttons
-        tagField.nextKeyView = buttons2.first
-        if buttons2.count > 1 {
-            for i in 0..<buttons2.count - 1 {
-                buttons2[i].nextKeyView = buttons2[i + 1]
-            }
-        }
-        buttons2.last?.nextKeyView = titleField
-
-        guard let window = NSApplication.shared.windows.first(where: { $0.isVisible && $0.className.contains("Popover") }) ?? NSApplication.shared.keyWindow else { return }
-        DispatchQueue.main.async { window.attachedSheet?.makeFirstResponder(titleField) }
-        dialog.beginSheetModal(for: window) { response in
-            window.makeKey()
-            guard response == .alertFirstButtonReturn, !titleField.string.isEmpty else { return }
-            item.itemName = titleField.string
-            if tagField.stringValue.isEmpty {
-                item.itemTag = nil
-            } else {
-                let formatted = tagField.stringValue
-                    .split(separator: ",")
-                    .map { t in
-                        let trimmed = t.trimmingCharacters(in: .whitespaces)
-                        return trimmed.hasPrefix("#") ? trimmed : "#\(trimmed)"
-                    }
-                    .joined(separator: ",")
-                item.itemTag = formatted
-            }
-            try? StorageHelper.shared.storageContext.save()
-        }
+        presentEditItemDialog(for: item)
     }
 
     private func actionEditDueDate(_ item: StockItem) {
-        let dialog = NSAlert()
-        dialog.messageText = NSLocalizedString("Add a due date for this item.", comment: "")
-        let picker = DialogDatePicker(frame: NSRect(x: 0, y: 0, width: 240, height: 24))
-        picker.dateValue = item.dueDate ?? Date()
-        picker.datePickerStyle = .textFieldAndStepper
-        dialog.accessoryView = picker
-        let setButton = dialog.addButton(withTitle: NSLocalizedString("Set deadline", comment: ""))
-        setButton.keyEquivalent = "\r"
-        if item.dueDate != nil {
-            dialog.addButton(withTitle: NSLocalizedString("Remove", comment: ""))
-        }
-        let cancelButton = dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        cancelButton.keyEquivalent = "\u{1b}"
-        for button in dialog.buttons { button.focusRingType = .exterior }
-        guard let window = NSApplication.shared.windows.first(where: { $0.isVisible && $0.className.contains("Popover") }) ?? NSApplication.shared.keyWindow else { return }
-        DispatchQueue.main.async { window.attachedSheet?.makeFirstResponder(picker) }
-        dialog.beginSheetModal(for: window) { response in
-            window.makeKey()
-            if response == .alertFirstButtonReturn {
-                item.dueDate = picker.dateValue
-                try? StorageHelper.shared.storageContext.save()
-            } else if response == .alertSecondButtonReturn && item.dueDate != nil {
-                item.dueDate = nil
-                try? StorageHelper.shared.storageContext.save()
-            }
-        }
+        presentDeadlineDialog(for: item)
     }
 }

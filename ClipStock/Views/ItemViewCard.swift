@@ -1,11 +1,5 @@
 import SwiftUI
 
-/// Returns the popover's window to present sheets on.
-private func popoverWindow() -> NSWindow? {
-    NSApplication.shared.windows.first { $0.isVisible && $0.className.contains("Popover") }
-    ?? NSApplication.shared.keyWindow
-}
-
 struct ItemViewCard: View {
 
     @ObservedObject var itemObject: StockItem
@@ -121,8 +115,10 @@ struct ItemViewCard: View {
             NSPasteboard.general.setString(itemObject.itemName ?? "", forType: .string)
         }
 
-        // Show "Copied!" toast
-        ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
+        // Close popover after copy
+        if let delegate = NSApp.delegate as? AppDelegate {
+            delegate.togglePopover(nil)
+        }
     }
 
     private func actionGetiCloudLink() {
@@ -155,114 +151,11 @@ struct ItemViewCard: View {
 
 
     private func actionPresentEditDialog() {
-        let dialog = NSAlert()
-        dialog.messageText = NSLocalizedString("Edit item details", comment: "")
-
-        let stack = NSStackView(frame: NSRect(x: 0, y: 0, width: 260, height: 140))
-        stack.orientation = .vertical
-        stack.spacing = 8
-
-        let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 260, height: 100))
-        let titleField = DialogTextView(frame: scrollView.contentView.bounds)
-        titleField.string = itemObject.itemName ?? ""
-        titleField.isEditable = true
-        titleField.isRichText = false
-        titleField.font = .systemFont(ofSize: 13)
-        titleField.autoresizingMask = [.width, .height]
-        titleField.isVerticallyResizable = true
-        titleField.textContainer?.widthTracksTextView = true
-        scrollView.documentView = titleField
-        scrollView.hasVerticalScroller = true
-        scrollView.borderType = .bezelBorder
-
-        let tagField = DialogTagField(frame: NSRect(x: 0, y: 0, width: 260, height: 24))
-        tagField.stringValue = (itemObject.itemTag ?? "")
-            .split(separator: ",")
-            .map { $0.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "#", with: "") }
-            .joined(separator: ", ")
-        tagField.placeholderString = "Tag"
-        tagField.font = .systemFont(ofSize: 13)
-
-        stack.addArrangedSubview(scrollView)
-        stack.addArrangedSubview(tagField)
-        dialog.accessoryView = stack
-
-        if let iconData = itemObject.itemIconData {
-            dialog.icon = NSImage(data: iconData)
-        }
-
-        let okButton = dialog.addButton(withTitle: "OK")
-        okButton.keyEquivalent = ""
-        let cancelButton = dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        cancelButton.keyEquivalent = "\u{1b}"
-        for button in dialog.buttons { button.focusRingType = .exterior }
-
-        titleField.alert = dialog
-        titleField.tabTarget = tagField
-        tagField.alert = dialog
-
-        let buttons = dialog.buttons
-        tagField.nextKeyView = buttons.first
-        if buttons.count > 1 {
-            for i in 0..<buttons.count - 1 {
-                buttons[i].nextKeyView = buttons[i + 1]
-            }
-        }
-        buttons.last?.nextKeyView = titleField
-
-        guard let window = popoverWindow() else { return }
-        DispatchQueue.main.async { window.attachedSheet?.makeFirstResponder(titleField) }
-        dialog.beginSheetModal(for: window) { response in
-            window.makeKey()
-
-            guard response == .alertFirstButtonReturn,
-                  !titleField.string.isEmpty else { return }
-
-            self.itemObject.itemName = titleField.string
-
-            if tagField.stringValue.isEmpty {
-                self.itemObject.itemTag = nil
-            } else {
-                let formatted = tagField.stringValue
-                    .split(separator: ",")
-                    .map { t in
-                        let trimmed = t.trimmingCharacters(in: .whitespaces)
-                        return trimmed.hasPrefix("#") ? trimmed : "#\(trimmed)"
-                    }
-                    .joined(separator: ",")
-                self.itemObject.itemTag = formatted
-            }
-            try? StorageHelper.shared.storageContext.save()
-        }
+        presentEditItemDialog(for: itemObject)
     }
 
     private func actionEditDueDate() {
-        let dialog = NSAlert()
-        dialog.messageText = NSLocalizedString("Add a due date for this item.", comment: "")
-        let picker = DialogDatePicker(frame: NSRect(x: 0, y: 0, width: 240, height: 24))
-        picker.dateValue = itemObject.dueDate ?? Date()
-        picker.datePickerStyle = .textFieldAndStepper
-        dialog.accessoryView = picker
-        let setButton = dialog.addButton(withTitle: NSLocalizedString("Set deadline", comment: ""))
-        setButton.keyEquivalent = "\r"
-        if itemObject.dueDate != nil {
-            dialog.addButton(withTitle: NSLocalizedString("Remove", comment: ""))
-        }
-        let cancelButton2 = dialog.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        cancelButton2.keyEquivalent = "\u{1b}"
-        for button in dialog.buttons { button.focusRingType = .exterior }
-        guard let window = popoverWindow() else { return }
-        DispatchQueue.main.async { window.attachedSheet?.makeFirstResponder(picker) }
-        dialog.beginSheetModal(for: window) { response in
-            window.makeKey()
-            if response == .alertFirstButtonReturn {
-                self.itemObject.dueDate = picker.dateValue
-                try? StorageHelper.shared.storageContext.save()
-            } else if response == .alertSecondButtonReturn && self.itemObject.dueDate != nil {
-                self.itemObject.dueDate = nil
-                try? StorageHelper.shared.storageContext.save()
-            }
-        }
+        presentDeadlineDialog(for: itemObject)
     }
 
     private func actionDelete() {

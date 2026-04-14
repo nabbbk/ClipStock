@@ -20,8 +20,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     // MARK: - Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSView.disableFocusRings()
-
         let contentView = ContentView()
             .environment(\.managedObjectContext, persistence.storageContext)
 
@@ -183,8 +181,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             case 36: // Enter
                 if !hasShift {
                     state.keyAction.send(.copySelected)
+                    closePopover(nil)
                     if Preferences.pasteOnSelect {
-                        closePopover(nil)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
                             PasteHelper.simulatePaste()
                         }
@@ -211,6 +209,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             case kVK_ANSI_C:
                 if !textFieldActive {
                     state.keyAction.send(.copySelected)
+                    closePopover(nil)
+                    if Preferences.pasteOnSelect {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                            PasteHelper.simulatePaste()
+                        }
+                    }
                     return true
                 }
             case kVK_ANSI_N:

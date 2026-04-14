@@ -13,11 +13,9 @@
 		A100000001000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000003 /* ContentView.swift */; };
 		A100000001000004 /* ItemViewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000004 /* ItemViewCard.swift */; };
 		A100000001000005 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000005 /* TagView.swift */; };
-		A100000001000006 /* SearchFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000006 /* SearchFieldView.swift */; };
 		A100000001000007 /* StorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000007 /* StorageHelper.swift */; };
 		A100000001000008 /* MetaDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000008 /* MetaDataHelper.swift */; };
 		A100000001000009 /* NSImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000009 /* NSImage+Extensions.swift */; };
-		A100000001000010 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000010 /* String+Extensions.swift */; };
 		A100000001000011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100000002000011 /* Assets.xcassets */; };
 		A100000001000012 /* ClipStock.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000012 /* ClipStock.xcdatamodeld */; };
 		A100000001000013 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A100000002000020 /* Localizable.strings */; };
@@ -26,8 +24,8 @@
 		A100000001000016 /* ClipboardItemCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000032 /* ClipboardItemCard.swift */; };
 		A100000001000017 /* ToastOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000033 /* ToastOverlay.swift */; };
 		A100000001000019 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000035 /* AppState.swift */; };
-		A100000001000020 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000036 /* NSView+Extensions.swift */; };
 		A100000001000099 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000099 /* SettingsView.swift */; };
+		A100000001000100 /* StockItemDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000100 /* StockItemDialogs.swift */; };
 		A1000000010000A1 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A1 /* Preferences.swift */; };
 		A1000000010000A2 /* PasteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A2 /* PasteHelper.swift */; };
 		A1000000010000A3 /* LaunchAtLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A3 /* LaunchAtLoginHelper.swift */; };
@@ -39,11 +37,9 @@
 		A100000002000003 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A100000002000004 /* ItemViewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewCard.swift; sourceTree = "<group>"; };
 		A100000002000005 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
-		A100000002000006 /* SearchFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldView.swift; sourceTree = "<group>"; };
 		A100000002000007 /* StorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageHelper.swift; sourceTree = "<group>"; };
 		A100000002000008 /* MetaDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataHelper.swift; sourceTree = "<group>"; };
 		A100000002000009 /* NSImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Extensions.swift"; sourceTree = "<group>"; };
-		A100000002000010 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		A100000002000011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A100000002000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A100000002000014 /* ClipStock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipStock.entitlements; sourceTree = "<group>"; };
@@ -56,8 +52,8 @@
 		A100000002000032 /* ClipboardItemCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItemCard.swift; sourceTree = "<group>"; };
 		A100000002000033 /* ToastOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastOverlay.swift; sourceTree = "<group>"; };
 		A100000002000035 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		A100000002000036 /* NSView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
 		A100000002000099 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A100000002000100 /* StockItemDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockItemDialogs.swift; sourceTree = "<group>"; };
 		A1000000020000A1 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		A1000000020000A2 /* PasteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteHelper.swift; sourceTree = "<group>"; };
 		A1000000020000A3 /* LaunchAtLoginHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginHelper.swift; sourceTree = "<group>"; };
@@ -116,11 +112,11 @@
 				A100000002000003 /* ContentView.swift */,
 				A100000002000004 /* ItemViewCard.swift */,
 				A100000002000005 /* TagView.swift */,
-				A100000002000006 /* SearchFieldView.swift */,
 				A100000002000031 /* ClipboardView.swift */,
 				A100000002000032 /* ClipboardItemCard.swift */,
 				A100000002000033 /* ToastOverlay.swift */,
 				A100000002000099 /* SettingsView.swift */,
+				A100000002000100 /* StockItemDialogs.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -140,8 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				A100000002000009 /* NSImage+Extensions.swift */,
-				A100000002000010 /* String+Extensions.swift */,
-				A100000002000036 /* NSView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -240,21 +234,19 @@
 				A100000001000001 /* ClipStockApp.swift in Sources */,
 				A100000001000002 /* AppDelegate.swift in Sources */,
 				A100000001000019 /* AppState.swift in Sources */,
-				A100000001000020 /* NSView+Extensions.swift in Sources */,
 				A100000001000003 /* ContentView.swift in Sources */,
 				A100000001000004 /* ItemViewCard.swift in Sources */,
 				A100000001000005 /* TagView.swift in Sources */,
-				A100000001000006 /* SearchFieldView.swift in Sources */,
 				A100000001000007 /* StorageHelper.swift in Sources */,
 				A100000001000008 /* MetaDataHelper.swift in Sources */,
 				A100000001000009 /* NSImage+Extensions.swift in Sources */,
-				A100000001000010 /* String+Extensions.swift in Sources */,
 				A100000001000012 /* ClipStock.xcdatamodeld in Sources */,
 				A100000001000014 /* ClipboardMonitor.swift in Sources */,
 				A100000001000015 /* ClipboardView.swift in Sources */,
 				A100000001000016 /* ClipboardItemCard.swift in Sources */,
 				A100000001000017 /* ToastOverlay.swift in Sources */,
 				A100000001000099 /* SettingsView.swift in Sources */,
+				A100000001000100 /* StockItemDialogs.swift in Sources */,
 				A1000000010000A1 /* Preferences.swift in Sources */,
 				A1000000010000A2 /* PasteHelper.swift in Sources */,
 				A1000000010000A3 /* LaunchAtLoginHelper.swift in Sources */,
