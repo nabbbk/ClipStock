@@ -58,7 +58,7 @@ Both shortcuts are remappable in **Preferences** (right-click the menu bar icon 
 | `Shift+↑` / `Shift+↓` | Extend selection |
 | `Tab` / `←` / `→` | Switch between Stock/Clipboard |
 | `Enter` / `Cmd+C` | Copy selected item and close popover |
-| `Esc` | Close popover |
+| `Esc` | Unfocus search field / Close popover |
 | `Cmd+F` | Focus search field |
 | `Cmd+1` … `Cmd+9` | Copy the Nth visible item and close popover |
 
