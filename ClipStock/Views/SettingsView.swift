@@ -3,6 +3,7 @@ import KeyboardShortcuts
 
 struct SettingsView: View {
 
+    @ObservedObject private var updater = UpdaterManager.shared
     @AppStorage(PreferenceKey.pasteOnSelect) private var pasteOnSelect: Bool = false
     @AppStorage(PreferenceKey.launchAtLogin) private var launchAtLogin: Bool = false
     @AppStorage(PreferenceKey.maxHistoryCount) private var maxHistoryCount: Int = 500
@@ -49,6 +50,18 @@ struct SettingsView: View {
                         }
                         Text(NSLocalizedString("clippings", comment: ""))
                             .foregroundColor(.secondary)
+                    }
+                }
+
+                Divider()
+
+                // Updates
+                section(title: NSLocalizedString("Updates", comment: "")) {
+                    HStack {
+                        Button(NSLocalizedString("Check for Updates…", comment: "")) {
+                            updater.checkForUpdates()
+                        }
+                        .disabled(!updater.canCheckForUpdates)
                     }
                 }
 

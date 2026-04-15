@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9103A1D82F88CCD900BEEA5C /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 9103A1D72F88CCD900BEEA5C /* KeyboardShortcuts */; };
+		912D3A192F8F1C48002D983B /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 912D3A182F8F1C48002D983B /* Sparkle */; };
+		912D3A1B2F8F1D62002D983B /* UpdaterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D3A1A2F8F1D62002D983B /* UpdaterManager.swift */; };
 		A100000001000001 /* ClipStockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000001 /* ClipStockApp.swift */; };
 		A100000001000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000002 /* AppDelegate.swift */; };
 		A100000001000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000003 /* ContentView.swift */; };
@@ -25,13 +27,14 @@
 		A100000001000017 /* ToastOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000033 /* ToastOverlay.swift */; };
 		A100000001000019 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000035 /* AppState.swift */; };
 		A100000001000099 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000099 /* SettingsView.swift */; };
-		A100000001000100 /* StockItemDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000100 /* StockItemDialogs.swift */; };
 		A1000000010000A1 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A1 /* Preferences.swift */; };
 		A1000000010000A2 /* PasteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A2 /* PasteHelper.swift */; };
 		A1000000010000A3 /* LaunchAtLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A3 /* LaunchAtLoginHelper.swift */; };
+		A100000001000100 /* StockItemDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000100 /* StockItemDialogs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		912D3A1A2F8F1D62002D983B /* UpdaterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterManager.swift; sourceTree = "<group>"; };
 		A100000002000001 /* ClipStockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipStockApp.swift; sourceTree = "<group>"; };
 		A100000002000002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A100000002000003 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,10 +56,10 @@
 		A100000002000033 /* ToastOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastOverlay.swift; sourceTree = "<group>"; };
 		A100000002000035 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A100000002000099 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		A100000002000100 /* StockItemDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockItemDialogs.swift; sourceTree = "<group>"; };
 		A1000000020000A1 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		A1000000020000A2 /* PasteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteHelper.swift; sourceTree = "<group>"; };
 		A1000000020000A3 /* LaunchAtLoginHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginHelper.swift; sourceTree = "<group>"; };
+		A100000002000100 /* StockItemDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockItemDialogs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9103A1D82F88CCD900BEEA5C /* KeyboardShortcuts in Frameworks */,
+				912D3A192F8F1C48002D983B /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +100,7 @@
 		A100000003000003 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				912D3A1A2F8F1D62002D983B /* UpdaterManager.swift */,
 				A100000002000001 /* ClipStockApp.swift */,
 				A100000002000002 /* AppDelegate.swift */,
 				A100000002000035 /* AppState.swift */,
@@ -204,6 +209,7 @@
 			mainGroup = A100000003000001;
 			packageReferences = (
 				9103A1D62F88CCD900BEEA5C /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				912D3A172F8F1C48002D983B /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = A100000003000008 /* Products */;
 			projectDirPath = "";
@@ -246,6 +252,7 @@
 				A100000001000016 /* ClipboardItemCard.swift in Sources */,
 				A100000001000017 /* ToastOverlay.swift in Sources */,
 				A100000001000099 /* SettingsView.swift in Sources */,
+				912D3A1B2F8F1D62002D983B /* UpdaterManager.swift in Sources */,
 				A100000001000100 /* StockItemDialogs.swift in Sources */,
 				A1000000010000A1 /* Preferences.swift in Sources */,
 				A1000000010000A2 /* PasteHelper.swift in Sources */,
@@ -403,7 +410,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nabbbk.ClipStock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -430,7 +437,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nabbbk.ClipStock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -470,6 +477,14 @@
 				minimumVersion = 2.4.0;
 			};
 		};
+		912D3A172F8F1C48002D983B /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -477,6 +492,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9103A1D62F88CCD900BEEA5C /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
+		};
+		912D3A182F8F1C48002D983B /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 912D3A172F8F1C48002D983B /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 

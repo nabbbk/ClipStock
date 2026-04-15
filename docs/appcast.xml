@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>ClipStock Updates</title>
+    <link>https://nabbbk.github.io/ClipStock/appcast.xml</link>
+    <description>Most recent updates to ClipStock.</description>
+    <language>en</language>
+
+    <item>
+      <title>Version 1.4.0</title>
+      <sparkle:version>1.4.0</sparkle:version>
+      <sparkle:shortVersionString>1.4.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+      <pubDate>Tue, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <enclosure
+        url="https://github.com/nabbbk/ClipStock/releases/download/v1.4.0/ClipStock.dmg"
+        type="application/octet-stream"
+        sparkle:edSignature="r9/vWWVWYpj3qLnP0Gkb47qLwnCxOz315oZotObT96Df5rv31f0WL/K76w3mf7rvRqwA3z1Jaopon43iBlN7AA=="
+        length="1884444"
+      />
+    </item>
+
+  </channel>
+</rss>

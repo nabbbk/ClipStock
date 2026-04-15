@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.4.0</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -26,5 +26,11 @@
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>SUFeedURL</key>
+	<string>https://nabbbk.github.io/ClipStock/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>fr0XK9V0CmUzcuFmH5LMlmYYgrU+MS+RiEwwE1BHuLM=</string>
+	<key>SUEnableAutomaticChecks</key>
+	<false/>
 </dict>
 </plist>
