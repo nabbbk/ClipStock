@@ -8,15 +8,15 @@
 
     <item>
       <title>Version 1.4.0</title>
-      <sparkle:version>1.4.0</sparkle:version>
+      <sparkle:version>140</sparkle:version>
       <sparkle:shortVersionString>1.4.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
       <pubDate>Tue, 15 Apr 2026 00:00:00 +0000</pubDate>
       <enclosure
         url="https://github.com/nabbbk/ClipStock/releases/download/v1.4.0/ClipStock.dmg"
         type="application/octet-stream"
-        sparkle:edSignature="Iyjay2VNx4WhGxjBgIZC7rjKVGutlZYgBLwUqyL33qPjGVJXTnPHTCXT+LNxXfHPHT0E1JDMOx3shjUY6NCiDA=="
-        length="1883456"
+        sparkle:edSignature="80mM+tk0/LIyb6yyjH85QMxRtI6NOMf1edWHLWDDAHuBsReVwT3Pc1YF5WEz8wlKapxX73wGV5HH7Uvb1OFHAw=="
+        length="1883618"
       />
     </item>
 
