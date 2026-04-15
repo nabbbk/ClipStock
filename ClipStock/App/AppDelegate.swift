@@ -153,10 +153,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         let state = AppState.shared
         let textFieldActive = NSApp.keyWindow?.firstResponder is NSText
 
-        // Esc — if a dialog sheet is showing, let it handle Esc; otherwise close popover
+        // Esc — if a dialog sheet is showing, let it handle Esc;
+        // if a text field is focused, unfocus it; otherwise close popover
         if event.keyCode == 53 {
             if let window = popover.contentViewController?.view.window, window.attachedSheet != nil {
                 return false
+            }
+            if textFieldActive, let window = NSApp.keyWindow {
+                window.makeFirstResponder(nil)
+                return true
             }
             closePopover(nil)
             return true
