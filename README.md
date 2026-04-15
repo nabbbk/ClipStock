@@ -92,6 +92,15 @@ Both shortcuts are remappable in **Preferences** (right-click the menu bar icon 
 
 ## Install
 
+### Homebrew (recommended)
+
+```bash
+brew tap nabbbk/clipstock
+brew install --cask clipstock
+```
+
+### Manual
+
 1. Download `ClipStock.dmg` from the [latest release](https://github.com/nabbbk/ClipStock/releases/latest)
 2. Open the DMG and drag ClipStock to Applications
 3. Remove the quarantine flag (required for unsigned apps):
