@@ -7,6 +7,29 @@
     <language>en</language>
 
     <item>
+      <title>Version 1.5.0</title>
+      <sparkle:version>150</sparkle:version>
+      <sparkle:shortVersionString>1.5.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+      <pubDate>Fri, 17 Apr 2026 00:00:00 +0000</pubDate>
+      <description><![CDATA[
+        <h3>Clipboard history is now encrypted at rest</h3>
+        <ul>
+          <li>Every clipboard item is stored using AES-GCM encryption with a 256-bit key kept in your macOS Keychain.</li>
+          <li>Password managers that set the <code>ConcealedType</code> flag (1Password, Bitwarden, etc.) are now respected — those pastes are never recorded.</li>
+          <li>Existing clipboard history is migrated automatically on first launch. No action needed.</li>
+          <li>Automatic update checking is now enabled by default.</li>
+        </ul>
+      ]]></description>
+      <enclosure
+        url="https://github.com/nabbbk/ClipStock/releases/download/v1.5.0/ClipStock.dmg"
+        type="application/octet-stream"
+        sparkle:edSignature="MiiYzFCTMwb4A2b0O25oDPk1VNtqDVAymNKTVdZkEz9x1bolh5PFVGCeDVx1hWiMeT8zKZgWXMChxoUzZsvxCQ=="
+        length="1927260"
+      />
+    </item>
+
+    <item>
       <title>Version 1.4.1</title>
       <sparkle:version>141</sparkle:version>
       <sparkle:shortVersionString>1.4.1</sparkle:shortVersionString>
