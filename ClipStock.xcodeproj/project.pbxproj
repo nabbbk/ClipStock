@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D953853F997923EE29FA995 /* ClipboardItem+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4263A06A16F2E2CAB2AB5B9 /* ClipboardItem+Encryption.swift */; };
+		75C440EA90AC22F397E681A6 /* KeychainKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6400A1A103A84B455D7C8258 /* KeychainKeyStore.swift */; };
 		9103A1D82F88CCD900BEEA5C /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 9103A1D72F88CCD900BEEA5C /* KeyboardShortcuts */; };
 		912D3A192F8F1C48002D983B /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 912D3A182F8F1C48002D983B /* Sparkle */; };
 		912D3A1B2F8F1D62002D983B /* UpdaterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D3A1A2F8F1D62002D983B /* UpdaterManager.swift */; };
@@ -31,9 +33,12 @@
 		A1000000010000A2 /* PasteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A2 /* PasteHelper.swift */; };
 		A1000000010000A3 /* LaunchAtLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000020000A3 /* LaunchAtLoginHelper.swift */; };
 		A100000001000100 /* StockItemDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000002000100 /* StockItemDialogs.swift */; };
+		FBFB145E6571358BAED3FE4A /* ClipCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D5253B8064D5D4D16CBBC5 /* ClipCrypto.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33D5253B8064D5D4D16CBBC5 /* ClipCrypto.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ClipCrypto.swift; sourceTree = "<group>"; };
+		6400A1A103A84B455D7C8258 /* KeychainKeyStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeychainKeyStore.swift; sourceTree = "<group>"; };
 		912D3A1A2F8F1D62002D983B /* UpdaterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterManager.swift; sourceTree = "<group>"; };
 		A100000002000001 /* ClipStockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipStockApp.swift; sourceTree = "<group>"; };
 		A100000002000002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +65,7 @@
 		A1000000020000A2 /* PasteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteHelper.swift; sourceTree = "<group>"; };
 		A1000000020000A3 /* LaunchAtLoginHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginHelper.swift; sourceTree = "<group>"; };
 		A100000002000100 /* StockItemDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockItemDialogs.swift; sourceTree = "<group>"; };
+		D4263A06A16F2E2CAB2AB5B9 /* ClipboardItem+Encryption.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ClipboardItem+Encryption.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,9 @@
 				A100000002000008 /* MetaDataHelper.swift */,
 				A100000002000030 /* ClipboardMonitor.swift */,
 				A100000002000012 /* ClipStock.xcdatamodeld */,
+				6400A1A103A84B455D7C8258 /* KeychainKeyStore.swift */,
+				33D5253B8064D5D4D16CBBC5 /* ClipCrypto.swift */,
+				D4263A06A16F2E2CAB2AB5B9 /* ClipboardItem+Encryption.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -257,6 +266,9 @@
 				A1000000010000A1 /* Preferences.swift in Sources */,
 				A1000000010000A2 /* PasteHelper.swift in Sources */,
 				A1000000010000A3 /* LaunchAtLoginHelper.swift in Sources */,
+				75C440EA90AC22F397E681A6 /* KeychainKeyStore.swift in Sources */,
+				FBFB145E6571358BAED3FE4A /* ClipCrypto.swift in Sources */,
+				1D953853F997923EE29FA995 /* ClipboardItem+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,7 +411,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClipStock/ClipStock.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 141;
+				CURRENT_PROJECT_VERSION = 150;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -410,7 +422,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nabbbk.ClipStock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -426,7 +438,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClipStock/ClipStock.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 141;
+				CURRENT_PROJECT_VERSION = 150;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -437,7 +449,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nabbbk.ClipStock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

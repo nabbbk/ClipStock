@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4.1</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -31,6 +31,6 @@
 	<key>SUPublicEDKey</key>
 	<string>fr0XK9V0CmUzcuFmH5LMlmYYgrU+MS+RiEwwE1BHuLM=</string>
 	<key>SUEnableAutomaticChecks</key>
-	<false/>
+	<true/>
 </dict>
 </plist>
