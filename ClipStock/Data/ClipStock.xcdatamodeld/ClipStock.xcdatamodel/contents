@@ -16,8 +16,11 @@
         <attribute name="clipDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="clipID" optional="YES" attributeType="String"/>
         <attribute name="clipImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="clipImageDataEnc" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="clipSourceApp" optional="YES" attributeType="String"/>
         <attribute name="clipText" optional="YES" attributeType="String"/>
+        <attribute name="clipTextEnc" optional="YES" attributeType="Binary"/>
+        <attribute name="clipTextHash" optional="YES" attributeType="Binary" indexed="YES"/>
         <attribute name="clipType" optional="YES" attributeType="String"/>
         <attribute name="isPinned" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
     </entity>

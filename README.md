@@ -25,6 +25,8 @@ A macOS menu bar app for saving URLs, files, text, and clipboard history — all
 - **Plain text copy** — `⌥⌘C` strips formatting from the selected clip
 - **Configurable history limit** — default 500, adjustable in Preferences
 - **Self-aware** — doesn't re-capture copies made from within the Clipboard tab
+- **Encrypted at rest** — clipboard contents are stored with AES-GCM encryption using a 256-bit key kept in your macOS Keychain
+- **Respects password managers** — pastes marked with `org.nspasteboard.ConcealedType` (1Password, Bitwarden, etc.) are never recorded
 
 ### General
 - **Preferences window** — rebind global shortcuts, configure behavior; open via right-click on the menu bar icon
@@ -136,6 +138,8 @@ let container = NSPersistentCloudKitContainer(name: "ClipStock")
 
 Then add iCloud + CloudKit entitlements in Xcode. Requires a paid Apple Developer account.
 
+> **Note on encryption + CloudKit:** the clipboard encryption key lives in the local Keychain with `kSecAttrSynchronizable = false`, so it does not sync across devices. If you enable CloudKit, each device will have its own key and won't be able to decrypt the other's clips. Enabling CloudKit sync while keeping encryption at rest would require a dedicated key-sync mechanism that isn't currently implemented.
+
 ## Acknowledgments
 
 This project is inspired by and based on [ItemStock](https://github.com/mszpro/ItemStock) by [@mszpro](https://github.com/mszpro) (Shunzhe Ma). The original app provided the foundation for the stock/save functionality. ClipStock is a modernized rewrite with added clipboard management features.
@@ -156,6 +160,7 @@ This project is inspired by and based on [ItemStock](https://github.com/mszpro/I
 - Pinned clips, `⌘1`–`⌘9` quick copy, `⌥⌘C` plain text copy
 - Optional paste-on-select using `CGEvent` (Accessibility permission required)
 - Removed read/unread tracking (unnecessary for clipboard manager use case)
+- Clipboard history encrypted at rest (AES-GCM + Keychain-backed key); honors nspasteboard.org privacy types
 
 ## License
 

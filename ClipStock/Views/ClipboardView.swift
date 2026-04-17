@@ -121,7 +121,7 @@ struct ClipboardView: View {
     private var filteredClips: [ClipboardItem] {
         guard !searchText.isEmpty else { return Array(clips) }
         return clips.filter { clip in
-            (clip.clipText ?? "").localizedCaseInsensitiveContains(searchText) ||
+            (clip.plainText ?? "").localizedCaseInsensitiveContains(searchText) ||
             (clip.clipSourceApp ?? "").localizedCaseInsensitiveContains(searchText)
         }
     }
@@ -142,9 +142,9 @@ struct ClipboardView: View {
                 ClipboardMonitor.shared.ignoreSelfCopy()
                 let pasteboard = NSPasteboard.general
                 pasteboard.clearContents()
-                if clip.clipType == "image", let data = clip.clipImageData, let img = NSImage(data: data) {
+                if clip.clipType == "image", let data = clip.plainImage, let img = NSImage(data: data) {
                     pasteboard.writeObjects([img])
-                } else if let text = clip.clipText {
+                } else if let text = clip.plainText {
                     pasteboard.setString(text, forType: .string)
                 }
                 ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
@@ -179,15 +179,15 @@ struct ClipboardView: View {
             ClipboardMonitor.shared.ignoreSelfCopy()
             let pasteboard = NSPasteboard.general
             pasteboard.clearContents()
-            if clip.clipType == "image", let data = clip.clipImageData, let img = NSImage(data: data) {
+            if clip.clipType == "image", let data = clip.plainImage, let img = NSImage(data: data) {
                 pasteboard.writeObjects([img])
-            } else if let text = clip.clipText {
+            } else if let text = clip.plainText {
                 pasteboard.setString(text, forType: .string)
             }
             ToastState.shared.show(NSLocalizedString("Copied!", comment: ""))
         case .copyPlainText:
             if let id = cursorID, let clip = clips.first(where: { $0.clipID == id }),
-               let text = clip.clipText {
+               let text = clip.plainText {
                 ClipboardMonitor.shared.ignoreSelfCopy()
                 let pasteboard = NSPasteboard.general
                 pasteboard.clearContents()

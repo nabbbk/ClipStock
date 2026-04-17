@@ -4,3 +4,16 @@ xcuserdata/
 DerivedData/
 build/
 *.dmg
+
+# Code signing material — never commit these
+*.p12
+*.cer
+*.pem
+*.key
+*.mobileprovision
+*.provisionprofile
+
+# Secrets
+.env
+.env.*
+secrets.*

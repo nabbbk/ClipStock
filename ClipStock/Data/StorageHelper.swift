@@ -1,5 +1,6 @@
 import Foundation
 import CoreData
+import os.log
 
 class StorageHelper {
 
@@ -7,18 +8,56 @@ class StorageHelper {
 
     let storageContext: NSManagedObjectContext
 
+    private static let log = Logger(subsystem: "com.nabbbk.ClipStock", category: "storage")
+
     private init() {
         // Switch to NSPersistentCloudKitContainer when you have a paid Developer account
         let container = NSPersistentContainer(name: "ClipStock")
+        let description = container.persistentStoreDescriptions.first
+        description?.shouldMigrateStoreAutomatically = true
+        description?.shouldInferMappingModelAutomatically = true
         container.loadPersistentStores { _, error in
             if let error {
-                print("Core Data load error: \(error.localizedDescription)")
+                Self.log.error("store load failed: \(String(describing: error), privacy: .public)")
             }
         }
         let context = container.viewContext
         context.automaticallyMergesChangesFromParent = true
         context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
         self.storageContext = context
+
+        migrateLegacyPlaintextIfNeeded()
+    }
+
+    /// One-shot: re-encrypt any row still holding legacy plaintext in clipText /
+    /// clipImageData, then null those columns. Safe to call on every launch — it
+    /// does nothing once migration is complete.
+    private func migrateLegacyPlaintextIfNeeded() {
+        guard ClipCrypto.isAvailable else {
+            Self.log.error("crypto unavailable — skipping migration")
+            return
+        }
+        let request = NSFetchRequest<ClipboardItem>(entityName: "ClipboardItem")
+        request.predicate = NSPredicate(format: "clipText != nil OR clipImageData != nil")
+        guard let rows = try? storageContext.fetch(request), !rows.isEmpty else { return }
+
+        for clip in rows {
+            if let legacyText = clip.clipText {
+                clip.clipTextEnc = ClipCrypto.encryptString(legacyText)
+                clip.clipTextHash = ClipCrypto.hashString(legacyText)
+                clip.clipText = nil
+            }
+            if let legacyImage = clip.clipImageData {
+                clip.clipImageDataEnc = ClipCrypto.encrypt(legacyImage)
+                clip.clipImageData = nil
+            }
+        }
+        do {
+            try storageContext.save()
+            Self.log.info("migrated \(rows.count, privacy: .public) row(s) to encrypted storage")
+        } catch {
+            Self.log.error("migration save failed: \(String(describing: error), privacy: .public)")
+        }
     }
 
     private func nextSortIndex() -> Int32 {
@@ -41,7 +80,7 @@ class StorageHelper {
         do {
             try storageContext.save()
         } catch {
-            print("Save error: \(error.localizedDescription)")
+            Self.log.error("saveToCoreData failed: \(String(describing: error), privacy: .public)")
         }
     }
 
@@ -52,23 +91,25 @@ class StorageHelper {
         newItem.addedDate = Date()
         newItem.sortIndex = nextSortIndex()
 
+        let plainText = clip.plainText
+
         switch clip.clipType {
         case "link":
-            newItem.itemName = clip.clipText ?? "Link"
-            if let urlString = clip.clipText, let url = URL(string: urlString) {
+            newItem.itemName = plainText ?? "Link"
+            if let urlString = plainText, let url = URL(string: urlString) {
                 newItem.itemURL = url
             }
         case "image":
-            newItem.itemName = clip.clipText ?? "Image"
-            newItem.itemIconData = clip.clipImageData
+            newItem.itemName = plainText ?? "Image"
+            newItem.itemIconData = clip.plainImage
         default:
-            newItem.itemName = clip.clipText ?? "Text"
+            newItem.itemName = plainText ?? "Text"
         }
 
         do {
             try storageContext.save()
         } catch {
-            print("Promote error: \(error.localizedDescription)")
+            Self.log.error("promote failed: \(String(describing: error), privacy: .public)")
         }
     }
 
@@ -87,7 +128,7 @@ class StorageHelper {
             let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: objectIDs]
             NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [storageContext])
         } catch {
-            print("Clear clips error: \(error.localizedDescription)")
+            Self.log.error("clearAllClips failed: \(String(describing: error), privacy: .public)")
         }
     }
 

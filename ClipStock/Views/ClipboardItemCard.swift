@@ -12,7 +12,7 @@ struct ClipboardItemCard: View {
                 // Type icon or image preview
                 Group {
                     if clip.clipType == "image",
-                       let data = clip.clipImageData,
+                       let data = clip.plainImage,
                        let img = NSImage(data: data) {
                         Image(nsImage: img)
                             .resizable()
@@ -87,10 +87,10 @@ struct ClipboardItemCard: View {
         .contentShape(Rectangle())
         .onTapGesture { actionOpen() }
         .onDrag {
-            if clip.clipType == "image", let data = clip.clipImageData, let img = NSImage(data: data) {
+            if clip.clipType == "image", let data = clip.plainImage, let img = NSImage(data: data) {
                 return NSItemProvider(object: img)
             }
-            return NSItemProvider(object: (clip.clipText ?? "") as NSString)
+            return NSItemProvider(object: (clip.plainText ?? "") as NSString)
         }
     }
 
@@ -98,9 +98,9 @@ struct ClipboardItemCard: View {
 
     private var previewText: String {
         switch clip.clipType {
-        case "image": return clip.clipText ?? "Image"
-        case "link": return clip.clipText ?? "Link"
-        default: return clip.clipText ?? "Text"
+        case "image": return clip.plainText ?? "Image"
+        case "link": return clip.plainText ?? "Link"
+        default: return clip.plainText ?? "Text"
         }
     }
 
@@ -131,9 +131,9 @@ struct ClipboardItemCard: View {
         ClipboardMonitor.shared.ignoreSelfCopy()
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
-        if clip.clipType == "image", let data = clip.clipImageData, let img = NSImage(data: data) {
+        if clip.clipType == "image", let data = clip.plainImage, let img = NSImage(data: data) {
             pasteboard.writeObjects([img])
-        } else if let text = clip.clipText {
+        } else if let text = clip.plainText {
             pasteboard.setString(text, forType: .string)
         }
     }
