@@ -99,6 +99,7 @@ Both shortcuts are remappable in **Preferences** (right-click the menu bar icon 
 ```bash
 brew tap nabbbk/clipstock
 brew install --cask clipstock
+xattr -cr /Applications/ClipStock.app
 ```
 
 ### Manual
