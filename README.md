@@ -94,9 +94,19 @@ Both shortcuts are remappable in **Preferences** (right-click the menu bar icon 
 
 ## Install
 
+### One-liner (recommended)
+
+```bash
+curl -fsSL https://nabbbk.github.io/ClipStock/install.sh | sh
+```
+
+Downloads the latest release, installs to `/Applications`, and removes the quarantine flag automatically.
+
+### Manual
+
 1. Download `ClipStock.dmg` from the [latest release](https://github.com/nabbbk/ClipStock/releases/latest)
-2. Open the DMG and drag ClipStock to Applications
-3. Remove the quarantine flag (required for unsigned apps):
+2. Open the DMG and drag ClipStock to Applications — a `Read Me.txt` inside the DMG has setup instructions
+3. Remove the quarantine flag:
    ```
    xattr -cr /Applications/ClipStock.app
    ```

@@ -36,6 +36,27 @@ mkdir -p "$STAGING"
 cp -R "$APP_PATH" "$STAGING/"
 ln -s /Applications "$STAGING/Applications"
 
+cat > "$STAGING/Read Me.txt" << 'EOF'
+ClipStock — Quick Setup
+=======================
+
+1. Drag ClipStock to the Applications folder.
+
+2. Open Terminal and run:
+
+      xattr -cr /Applications/ClipStock.app
+
+3. Launch ClipStock from Applications or Spotlight.
+
+Why step 2?
+-----------
+ClipStock is not notarized with Apple. macOS blocks unnotarized apps
+downloaded from the internet. The xattr command removes the quarantine
+flag so Gatekeeper lets it run.
+
+Alternative: right-click ClipStock → Open → Open.
+EOF
+
 hdiutil create -volname "$APP_NAME" -srcfolder "$STAGING" -ov -format UDZO "$DMG_PATH"
 rm -rf "$STAGING"
 
