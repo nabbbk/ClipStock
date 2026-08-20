@@ -27,6 +27,33 @@ class StorageHelper {
         self.storageContext = context
 
         migrateLegacyPlaintextIfNeeded()
+        backfillContentHashesIfNeeded()
+    }
+
+    /// One-shot: populate clipContentHash for rows saved before dedup moved to the
+    /// content hash, so dedup works against existing history. No-op once complete.
+    private func backfillContentHashesIfNeeded() {
+        guard ClipCrypto.isAvailable else {
+            Self.log.error("crypto unavailable, skipping content-hash backfill")
+            return
+        }
+        let request = NSFetchRequest<ClipboardItem>(entityName: "ClipboardItem")
+        request.predicate = NSPredicate(format: "clipContentHash == nil")
+        guard let rows = try? storageContext.fetch(request), !rows.isEmpty else { return }
+
+        for clip in rows {
+            if clip.clipType == "image" {
+                clip.clipContentHash = clip.plainImage.flatMap { ClipCrypto.hash($0) }
+            } else {
+                clip.clipContentHash = clip.plainText.flatMap { ClipCrypto.hashString($0) }
+            }
+        }
+        do {
+            try storageContext.save()
+            Self.log.info("backfilled content hash for \(rows.count, privacy: .public) row(s)")
+        } catch {
+            Self.log.error("content-hash backfill save failed: \(String(describing: error), privacy: .public)")
+        }
     }
 
     /// One-shot: re-encrypt any row still holding legacy plaintext in clipText /
@@ -42,13 +69,15 @@ class StorageHelper {
         guard let rows = try? storageContext.fetch(request), !rows.isEmpty else { return }
 
         for clip in rows {
-            if let legacyText = clip.clipText {
-                clip.clipTextEnc = ClipCrypto.encryptString(legacyText)
+            // Null the legacy column only when encryption succeeded, since it holds the
+            // only copy of the bytes.
+            if let legacyText = clip.clipText, let enc = ClipCrypto.encryptString(legacyText) {
+                clip.clipTextEnc = enc
                 clip.clipTextHash = ClipCrypto.hashString(legacyText)
                 clip.clipText = nil
             }
-            if let legacyImage = clip.clipImageData {
-                clip.clipImageDataEnc = ClipCrypto.encrypt(legacyImage)
+            if let legacyImage = clip.clipImageData, let enc = ClipCrypto.encrypt(legacyImage) {
+                clip.clipImageDataEnc = enc
                 clip.clipImageData = nil
             }
         }
