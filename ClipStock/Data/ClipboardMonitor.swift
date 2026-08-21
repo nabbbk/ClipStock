@@ -57,9 +57,14 @@ class ClipboardMonitor {
         let context = StorageHelper.shared.storageContext
 
         // Detect clipboard content type and save
-        if let image = NSImage(pasteboard: pasteboard) {
-            // Image clipboard (raw image data on pasteboard)
-            let imageData = image.jpegData()
+        if let image = NSImage(pasteboard: pasteboard),
+           let imageData = pasteboard.data(forType: .png)
+                ?? pasteboard.data(forType: .tiff)
+                ?? image.jpegData() {
+            // Image clipboard. Prefer the pasteboard's own bytes (lossless, keeps
+            // alpha) and only fall back to a JPEG re-encode. If no bytes can be
+            // obtained at all, fall through to the link/text branches rather than
+            // writing a payload-less image row.
             let preview = pasteboard.string(forType: .string) ?? "Image"
             saveClip(type: "image", text: preview, imageData: imageData, context: context)
         } else if let urlString = pasteboard.string(forType: .string),
@@ -77,9 +82,16 @@ class ClipboardMonitor {
     private func saveClip(type: String, text: String?, imageData: Data?, context: NSManagedObjectContext) {
         // Dedup via HMAC hash column — equality check on the keyed hash is safe on
         // encrypted data and preserves the existing "move to top on duplicate" UX.
-        if let text, let hash = ClipCrypto.hashString(text) {
+        // The key must come from the identifying payload: image bytes for image
+        // clips (their text preview is a constant placeholder), text otherwise.
+        let contentHash: Data? = type == "image"
+            ? imageData.flatMap { ClipCrypto.hash($0) }
+            : text.flatMap { ClipCrypto.hashString($0) }
+
+        if let contentHash {
             let request = NSFetchRequest<ClipboardItem>(entityName: "ClipboardItem")
-            request.predicate = NSPredicate(format: "clipTextHash == %@", hash as NSData)
+            request.predicate = NSPredicate(format: "clipContentHash == %@ AND clipType == %@",
+                                            contentHash as NSData, type)
             if let existing = try? context.fetch(request).first {
                 existing.clipDate = Date()
                 existing.clipSourceApp = NSWorkspace.shared.frontmostApplication?.localizedName
@@ -92,6 +104,7 @@ class ClipboardMonitor {
         clip.clipID = UUID().uuidString
         clip.clipDate = Date()
         clip.clipType = type
+        clip.clipContentHash = contentHash
         clip.plainText = text
         clip.plainImage = imageData
         clip.clipSourceApp = NSWorkspace.shared.frontmostApplication?.localizedName

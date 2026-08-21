@@ -17,11 +17,15 @@ extension ClipboardItem {
             if let newValue {
                 clipTextEnc = ClipCrypto.encryptString(newValue)
                 clipTextHash = ClipCrypto.hashString(newValue)
+                // Trade-off: if encryption failed, keep the value in the legacy
+                // plaintext column (data preserved in plaintext rather than lost);
+                // migrateLegacyPlaintextIfNeeded re-encrypts it on a later launch.
+                clipText = clipTextEnc == nil ? newValue : nil
             } else {
                 clipTextEnc = nil
                 clipTextHash = nil
+                clipText = nil
             }
-            clipText = nil
         }
     }
 
@@ -36,10 +40,14 @@ extension ClipboardItem {
         set {
             if let newValue {
                 clipImageDataEnc = ClipCrypto.encrypt(newValue)
+                // Trade-off: if encryption failed, keep the bytes in the legacy
+                // plaintext column (data preserved in plaintext rather than lost);
+                // migrateLegacyPlaintextIfNeeded re-encrypts them on a later launch.
+                clipImageData = clipImageDataEnc == nil ? newValue : nil
             } else {
                 clipImageDataEnc = nil
+                clipImageData = nil
             }
-            clipImageData = nil
         }
     }
 }

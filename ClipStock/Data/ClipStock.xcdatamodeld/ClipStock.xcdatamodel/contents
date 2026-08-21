@@ -14,6 +14,7 @@
     </entity>
     <entity name="ClipboardItem" representedClassName="ClipboardItem" syncable="YES" codeGenerationType="class">
         <attribute name="clipDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="clipContentHash" optional="YES" attributeType="Binary" indexed="YES"/>
         <attribute name="clipID" optional="YES" attributeType="String"/>
         <attribute name="clipImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="clipImageDataEnc" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
